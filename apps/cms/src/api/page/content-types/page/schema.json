@@ -1,0 +1,102 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "page_type": {
+      "type": "enumeration",
+      "enum": [
+        "home",
+        "about",
+        "services",
+        "sectors",
+        "products",
+        "why_braintek",
+        "insights",
+        "contact",
+        "team",
+        "partners",
+        "legal",
+        "campaign"
+      ],
+      "required": true
+    },
+    "hero_title": {
+      "type": "string",
+      "required": true
+    },
+    "hero_subtitle": {
+      "type": "text"
+    },
+    "body_intro": {
+      "type": "richtext"
+    },
+    "section_payload": {
+      "type": "json"
+    },
+    "meta_title": {
+      "type": "string",
+      "maxLength": 70
+    },
+    "meta_description": {
+      "type": "text",
+      "maxLength": 180
+    },
+    "canonical_url": {
+      "type": "string"
+    },
+    "og_title": {
+      "type": "string"
+    },
+    "og_description": {
+      "type": "text"
+    },
+    "noindex": {
+      "type": "boolean",
+      "default": false
+    },
+    "workflow_status": {
+      "type": "enumeration",
+      "enum": [
+        "draft",
+        "review",
+        "published",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "sections": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::page-section.page-section",
+      "mappedBy": "page"
+    },
+    "cta_blocks": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::cta-block.cta-block"
+    },
+    "faqs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::faq.faq"
+    }
+  }
+}

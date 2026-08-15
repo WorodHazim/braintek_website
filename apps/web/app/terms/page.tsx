@@ -1,0 +1,3 @@
+import type { Metadata } from 'next';
+export const metadata: Metadata = { title:'Terms & Conditions', description:'BRAINTEK terms route. Final approved legal copy is required before production publication.', robots:{index:false,follow:false}, alternates:{canonical:'/terms'} };
+export default function Terms(){return <main id="main-content"><section className="detail-hero"><div className="container"><p className="eyebrow light">Legal</p><h1>Terms & Conditions</h1><p>Production legal copy pending BRAINTEK legal approval.</p></div></section><section className="section"><div className="container" style={{maxWidth:820}}><p>This route is ready for final legal content and is deliberately not populated with fabricated legal advice.</p></div></section></main>}

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "download_requests",
+  "info": {
+    "singularName": "download-request",
+    "pluralName": "download-requests",
+    "displayName": "Download Request"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "resource_slug": {
+      "type": "string",
+      "required": true
+    },
+    "requester_name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "organization": {
+      "type": "string"
+    },
+    "request_source": {
+      "type": "string"
+    }
+  }
+}

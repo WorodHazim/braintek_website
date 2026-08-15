@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cta_blocks",
+  "info": {
+    "singularName": "cta-block",
+    "pluralName": "cta-blocks",
+    "displayName": "CTA Block"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "supporting_text": {
+      "type": "text"
+    },
+    "primary_label": {
+      "type": "string"
+    },
+    "primary_url": {
+      "type": "string"
+    },
+    "secondary_label": {
+      "type": "string"
+    },
+    "secondary_url": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string"
+    },
+    "workflow_status": {
+      "type": "enumeration",
+      "enum": [
+        "draft",
+        "review",
+        "published",
+        "archived"
+      ],
+      "default": "draft"
+    }
+  }
+}

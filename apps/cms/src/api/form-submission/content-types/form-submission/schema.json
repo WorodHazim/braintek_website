@@ -1,0 +1,96 @@
+{
+  "kind": "collectionType",
+  "collectionName": "form_submissions",
+  "info": {
+    "singularName": "form-submission",
+    "pluralName": "form-submissions",
+    "displayName": "Form Submission"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "form_type": {
+      "type": "enumeration",
+      "enum": [
+        "consultation",
+        "general",
+        "partnership",
+        "platform",
+        "download"
+      ],
+      "required": true
+    },
+    "full_name": {
+      "type": "string",
+      "required": true
+    },
+    "organization": {
+      "type": "string",
+      "required": true
+    },
+    "role_title": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "phone": {
+      "type": "string"
+    },
+    "sector_interest": {
+      "type": "string"
+    },
+    "service_interest": {
+      "type": "string"
+    },
+    "product_interest": {
+      "type": "string"
+    },
+    "preferred_followup": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "NEW",
+        "IN_REVIEW",
+        "CONTACTED",
+        "QUALIFIED",
+        "CLOSED",
+        "ARCHIVED"
+      ],
+      "default": "NEW",
+      "required": true
+    },
+    "assignee": {
+      "type": "string"
+    },
+    "internal_notes": {
+      "type": "text",
+      "private": true
+    },
+    "follow_up_at": {
+      "type": "datetime"
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "ip_hash": {
+      "type": "string",
+      "private": true
+    },
+    "status_history": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::submission-status-log.submission-status-log",
+      "mappedBy": "submission"
+    }
+  }
+}

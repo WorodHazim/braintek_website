@@ -1,0 +1,9 @@
+services:
+  web:
+    command: npm run dev -- -H 0.0.0.0
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      NODE_ENV: development

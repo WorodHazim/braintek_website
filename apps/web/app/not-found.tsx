@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function NotFound(){return <main id="main-content"><section className="detail-hero"><div className="container"><p className="eyebrow light">404 / BRAINTEK</p><h1>That page is outside the current system.</h1><p>Return to the BRAINTEK homepage or continue through the corporate navigation.</p><div style={{marginTop:28}}><Link className="button button-light" href="/">Return Home</Link></div></div></section></main>}

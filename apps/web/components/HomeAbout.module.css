@@ -1,0 +1,151 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  color: #0b2036;
+  padding: clamp(110px, 9vw, 156px) 0 clamp(88px, 7vw, 118px);
+}
+
+.editorial {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(320px, .7fr);
+  gap: clamp(64px, 9vw, 150px);
+  align-items: end;
+}
+
+.headingBlock {
+  max-width: 860px;
+}
+
+.kicker {
+  margin: 0 0 22px;
+  color: #0b7c7a;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.headingBlock h2 {
+  margin: 0;
+  max-width: 860px;
+  color: #0a1f34;
+  font-family: var(--font-display), Manrope, sans-serif;
+  font-size: clamp(48px, 5.5vw, 82px);
+  font-weight: 500;
+  line-height: .98;
+  letter-spacing: -.058em;
+  text-wrap: balance;
+}
+
+.bodyBlock {
+  max-width: 470px;
+  padding-bottom: 6px;
+}
+
+.bodyBlock p {
+  margin: 0;
+  color: #5a7285;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 30px;
+  padding-bottom: 3px;
+  color: #0b324f;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: #0ea5a4;
+  transition: right .34s cubic-bezier(.22, 1, .36, 1);
+}
+
+.link:hover::after {
+  right: 0;
+}
+
+.link svg {
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.link:hover svg {
+  transform: translate(3px, -3px);
+}
+
+.bottomRule {
+  margin-top: clamp(72px, 6vw, 98px);
+}
+
+.bottomRule span {
+  display: block;
+  width: 100%;
+  height: 1px;
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    rgba(14, 165, 164, .38) 0%,
+    rgba(16, 42, 67, .12) 32%,
+    rgba(16, 42, 67, .06) 100%
+  );
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding-top: 94px;
+    padding-bottom: 82px;
+  }
+
+  .editorial {
+    grid-template-columns: 1fr;
+    gap: 38px;
+    align-items: start;
+  }
+
+  .bodyBlock {
+    max-width: 650px;
+  }
+
+  .bottomRule {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding-top: 78px;
+    padding-bottom: 68px;
+  }
+
+  .headingBlock h2 {
+    font-size: clamp(42px, 12vw, 58px);
+  }
+
+  .bodyBlock p {
+    font-size: 15px;
+  }
+
+  .bottomRule {
+    margin-top: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .link::after,
+  .link svg {
+    transition: none !important;
+  }
+}

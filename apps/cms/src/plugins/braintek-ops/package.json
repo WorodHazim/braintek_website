@@ -1,0 +1,6 @@
+{
+  "name": "braintek-ops",
+  "version": "1.0.0",
+  "private": true,
+  "strapi": { "kind": "plugin", "name": "braintek-ops", "displayName": "BRAINTEK Operations" }
+}

@@ -1,0 +1,33 @@
+{
+  "kind": "singleType",
+  "collectionName": "form_configuration",
+  "info": {
+    "singularName": "form-configuration",
+    "pluralName": "form-configurations",
+    "displayName": "Form Configuration"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "inquiry_types": {
+      "type": "json"
+    },
+    "sector_options": {
+      "type": "json"
+    },
+    "service_options": {
+      "type": "json"
+    },
+    "product_options": {
+      "type": "json"
+    },
+    "followup_options": {
+      "type": "json"
+    },
+    "notification_emails": {
+      "type": "json"
+    }
+  }
+}

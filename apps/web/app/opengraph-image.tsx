@@ -1,0 +1,3 @@
+import { ImageResponse } from 'next/og';
+export const size={width:1200,height:630}; export const contentType='image/png';
+export default function Image(){return new ImageResponse(<div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',padding:'72px',background:'#0B1F3A',color:'white',fontFamily:'Arial'}}><div style={{fontSize:24,letterSpacing:3,color:'#8de4df'}}>BRAINTEK AI SOLUTIONS & CONSULTANCIES</div><div style={{fontSize:62,fontWeight:800,lineHeight:1.05,maxWidth:1000}}>Security. Systems. AI. Automation. Human Capability.</div><div style={{display:'flex',justifyContent:'space-between',fontSize:20,color:'#b9cad6'}}><span>Abu Dhabi, UAE</span><span>braintek.ae</span></div></div>,size)}

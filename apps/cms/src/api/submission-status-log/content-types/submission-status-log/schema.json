@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "submission_status_logs",
+  "info": {
+    "singularName": "submission-status-log",
+    "pluralName": "submission-status-logs",
+    "displayName": "Submission Status Log"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "submission_document_id": {
+      "type": "string",
+      "required": true
+    },
+    "previous_status": {
+      "type": "string"
+    },
+    "new_status": {
+      "type": "string",
+      "required": true
+    },
+    "changed_by": {
+      "type": "string"
+    },
+    "note": {
+      "type": "text"
+    },
+    "changed_at": {
+      "type": "datetime",
+      "required": true
+    },
+    "submission": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::form-submission.form-submission",
+      "inversedBy": "status_history"
+    }
+  }
+}

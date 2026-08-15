@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-braintek}
+      POSTGRES_USER: ${POSTGRES_USER:-braintek}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-braintek_dev_password}
+    volumes:
+      - braintek-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-braintek} -d ${POSTGRES_DB:-braintek}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  cms:
+    build:
+      context: ./apps/cms
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      PORT: 1337
+    ports:
+      - "1337:1337"
+    volumes:
+      - braintek-uploads:/opt/app/public/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: 3000
+      STRAPI_URL: http://cms:1337
+      NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
+      NEXT_PUBLIC_INQUIRY_ENDPOINT: http://localhost:1337/api/inquiries
+    ports:
+      - "3000:3000"
+    depends_on:
+      - cms
+
+volumes:
+  braintek-postgres:
+  braintek-uploads:

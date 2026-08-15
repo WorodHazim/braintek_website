@@ -1,0 +1,16 @@
+{
+  "name": "braintek-platform",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["apps/web", "apps/cms"],
+  "scripts": {
+    "dev:web": "npm --workspace apps/web run dev",
+    "dev:cms": "npm --workspace apps/cms run develop",
+    "build": "npm --workspace apps/web run build && npm --workspace apps/cms run build",
+    "build:web": "npm --workspace apps/web run build",
+    "build:cms": "npm --workspace apps/cms run build",
+    "start:web": "npm --workspace apps/web run start",
+    "start:cms": "npm --workspace apps/cms run start"
+  },
+  "engines": {"node": ">=22 <27"}
+}

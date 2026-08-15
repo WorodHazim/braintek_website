@@ -1,0 +1,223 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 620px;
+  display: flex;
+  align-items: flex-end;
+  padding: 150px 0 82px;
+  background:
+    linear-gradient(90deg, rgba(2, 14, 26, .93) 0%, rgba(3, 18, 32, .85) 38%, rgba(4, 22, 39, .68) 68%, rgba(4, 21, 36, .79) 100%),
+    radial-gradient(circle at 76% 25%, rgba(29, 78, 216, .18), transparent 28%),
+    url('/services/services-hero.jpg') center center / cover no-repeat,
+    #071a2d;
+  color: #fff;
+}
+
+.heroGrid {
+  position: absolute;
+  inset: 0;
+  opacity: .27;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(132, 226, 220, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(132, 226, 220, .06) 1px, transparent 1px);
+  background-size: 86px 86px;
+  mask-image: linear-gradient(90deg, transparent 4%, #000 44%, #000);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+}
+
+.kicker,
+.kickerDark {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: #8ce6e0;
+}
+
+.kickerDark {
+  color: #0b7c7a;
+}
+
+.hero h1 {
+  max-width: 1080px;
+  margin: 24px 0 0;
+  font-family: var(--font-display), Manrope, sans-serif;
+  font-size: clamp(56px, 7vw, 108px);
+  font-weight: 500;
+  line-height: .9;
+  letter-spacing: -.065em;
+  text-wrap: balance;
+}
+
+.heroInner > p:last-child {
+  max-width: 700px;
+  margin: 30px 0 0;
+  color: rgba(214, 232, 240, .67);
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.teamSection {
+  overflow: hidden;
+  padding: clamp(110px, 9vw, 150px) 0 100px;
+  background: #f5f7fa;
+}
+
+.sectionIntro {
+  display: grid;
+  grid-template-columns: .42fr 1.58fr;
+  gap: clamp(42px, 7vw, 108px);
+  align-items: start;
+  margin-bottom: 58px;
+}
+
+.sectionIntro h2 {
+  max-width: 900px;
+  margin: 0;
+  color: #0a2036;
+  font-family: var(--font-display), Manrope, sans-serif;
+  font-size: clamp(50px, 5.5vw, 82px);
+  font-weight: 500;
+  line-height: .95;
+  letter-spacing: -.058em;
+}
+
+.sectionIntro div > p {
+  max-width: 690px;
+  margin: 24px 0 0;
+  color: #647b8d;
+  font-size: 14px;
+  line-height: 1.72;
+}
+
+.disciplines {
+  padding: clamp(110px, 9vw, 150px) 0;
+  background: #071a2d;
+  color: #fff;
+}
+
+.disciplineGrid {
+  display: grid;
+  grid-template-columns: .72fr 1.28fr;
+  gap: clamp(60px, 8vw, 120px);
+  align-items: start;
+}
+
+.disciplineTitle h2 {
+  max-width: 620px;
+  margin: 24px 0 0;
+  font-family: var(--font-display), Manrope, sans-serif;
+  font-size: clamp(48px, 5vw, 76px);
+  font-weight: 500;
+  line-height: .95;
+  letter-spacing: -.055em;
+}
+
+.disciplineList {
+  border-top: 1px solid rgba(171, 211, 224, .16);
+}
+
+.disciplineList article {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 22px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(171, 211, 224, .14);
+}
+
+.disciplineList article > span {
+  color: #82e3dd;
+  font-size: 9px;
+  font-weight: 760;
+  letter-spacing: .13em;
+}
+
+.disciplineList h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 560;
+}
+
+.disciplineList p {
+  max-width: 620px;
+  margin: 10px 0 0;
+  color: rgba(208, 228, 237, .64);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.cta {
+  padding: 82px 0;
+  background: #1d4ed8;
+  color: #fff;
+}
+
+.ctaInner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: end;
+}
+
+.cta h2 {
+  max-width: 850px;
+  margin: 20px 0 0;
+  font-family: var(--font-display), Manrope, sans-serif;
+  font-size: clamp(44px, 5vw, 74px);
+  font-weight: 500;
+  line-height: .95;
+  letter-spacing: -.055em;
+}
+
+.cta a {
+  min-height: 48px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  color: #0b2036;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+@media (max-width: 840px) {
+  .sectionIntro,
+  .disciplineGrid,
+  .ctaInner {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionIntro {
+    gap: 16px;
+  }
+
+  .cta a {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 560px;
+    padding: 130px 0 64px;
+  }
+
+  .hero h1 {
+    font-size: clamp(50px, 14vw, 74px);
+  }
+
+  .teamSection,
+  .disciplines {
+    padding: 78px 0 70px;
+  }
+}

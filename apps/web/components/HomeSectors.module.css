@@ -1,0 +1,367 @@
+.section {
+  overflow: hidden;
+  padding: clamp(92px, 8vw, 130px) 0 58px;
+  background: #f4f7f9;
+  color: #0a2036;
+}
+
+.heading {
+  padding-bottom: 46px;
+}
+
+.kicker {
+  margin: 0;
+  color: #0b7c7a;
+  font-size: 9px;
+  font-weight: 760;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.headingMain {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: end;
+  margin-top: 18px;
+}
+
+.headingMain h2 {
+  max-width: 950px;
+  margin: 0;
+  font-family: var(--font-display), Manrope, Arial, sans-serif;
+  font-size: clamp(48px, 5.5vw, 82px);
+  font-weight: 500;
+  line-height: .94;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+}
+
+.headingMain > div:first-child > p {
+  max-width: 760px;
+  margin: 25px 0 0;
+  color: #657c8e;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.arrows {
+  display: flex;
+  gap: 9px;
+}
+
+.arrows button {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(16, 42, 67, .16);
+  border-radius: 50%;
+  background: transparent;
+  color: #0a2036;
+  cursor: pointer;
+  transition:
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease;
+}
+
+.arrows button:hover {
+  border-color: #0b7c7a;
+  background: #0b7c7a;
+  color: #fff;
+}
+
+.viewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 0 max(16px, calc((100vw - 1320px) / 2));
+  cursor: grab;
+
+  /*
+   * Vertical page scrolling must continue to work while the pointer is
+   * over a sector card. Horizontal movement is handled by our drag logic.
+   */
+  touch-action: pan-y;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.dragging {
+  cursor: grabbing;
+}
+
+.track {
+  width: max-content;
+  display: flex;
+  gap: 14px;
+}
+
+.card {
+  position: relative;
+  flex: 0 0 clamp(360px, 28.7vw, 468px);
+  height: clamp(560px, 47vw, 680px);
+  overflow: hidden;
+  display: block;
+  background: #06182b;
+  color: #fff;
+  isolation: isolate;
+  cursor: pointer;
+}
+
+.image {
+  position: absolute;
+  z-index: -3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  transform: scale(1.01);
+  transition:
+    transform .75s cubic-bezier(.22, 1, .36, 1),
+    filter .5s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.055);
+}
+
+.overlay {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(2, 14, 27, .05) 0%,
+      rgba(2, 14, 27, .08) 33%,
+      rgba(2, 14, 27, .53) 66%,
+      rgba(2, 14, 27, .96) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(2, 14, 27, .18),
+      transparent 55%
+    );
+}
+
+.cardTop {
+  position: absolute;
+  inset: 22px 22px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  pointer-events: none;
+}
+
+.cardTop > span {
+  color: #8ce8e2;
+  font-size: 9px;
+  font-weight: 760;
+  letter-spacing: .11em;
+}
+
+.cardTop > i {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(134, 229, 223, .28);
+  border-radius: 50%;
+}
+
+.cardTop > i::before,
+.cardTop > i::after {
+  content: '';
+  position: absolute;
+  border: 1px solid rgba(134, 229, 223, .20);
+  border-radius: 50%;
+}
+
+.cardTop > i::before {
+  inset: 8px;
+}
+
+.cardTop > i::after {
+  inset: 15px;
+  background: #7fe6df;
+  border: 0;
+}
+
+.cardTop b {
+  display: none;
+}
+
+.cardCopy {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 24px;
+  pointer-events: none;
+}
+
+.eyebrow {
+  margin: 0;
+  color: rgba(201, 226, 235, .62);
+  font-size: 8px;
+  font-weight: 740;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.cardCopy h3 {
+  max-width: 100%;
+  margin: 13px 0 0;
+  font-family: var(--font-display), Manrope, Arial, sans-serif;
+  font-size: clamp(38px, 3.3vw, 55px);
+  font-weight: 510;
+  line-height: .92;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+
+.cardCopy h3 small {
+  display: block;
+  margin-top: 3px;
+  color: rgba(225, 237, 242, .70);
+  font-size: .68em;
+  font-weight: 480;
+  line-height: 1;
+}
+
+.summary {
+  display: -webkit-box;
+  max-width: 410px;
+  margin: 20px 0 0;
+  overflow: hidden;
+  color: rgba(215, 233, 240, .72);
+  font-size: 11.5px;
+  line-height: 1.6;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 23px;
+  color: #9cebe6;
+  font-size: 10px;
+  font-weight: 750;
+  pointer-events: none;
+  transition: gap .25s ease;
+}
+
+.card:hover .explore {
+  gap: 12px;
+}
+
+.progressRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+  margin-top: 26px;
+}
+
+.progressNumbers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #607789;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: .11em;
+}
+
+.progressNumbers > i {
+  width: 24px;
+  height: 1px;
+  background: #0ea5a4;
+}
+
+.progressTrack {
+  height: 1px;
+  overflow: hidden;
+  background: rgba(16, 42, 67, .13);
+}
+
+.progressTrack > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5a4, #1d4ed8);
+  transform-origin: left center;
+  transition: transform .12s linear;
+}
+
+.progressRow > p {
+  margin: 0;
+  color: #758999;
+  font-size: 8px;
+  font-weight: 740;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .headingMain {
+    grid-template-columns: 1fr;
+  }
+
+  .arrows {
+    justify-self: start;
+  }
+
+  .card {
+    flex-basis: min(78vw, 440px);
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 76px 0 46px;
+  }
+
+  .heading {
+    padding-bottom: 34px;
+  }
+
+  .headingMain h2 {
+    font-size: clamp(43px, 12vw, 58px);
+  }
+
+  .card {
+    flex-basis: 84vw;
+    height: 590px;
+  }
+
+  .progressRow {
+    grid-template-columns: auto 1fr;
+  }
+
+  .progressRow > p {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .explore,
+  .arrows button,
+  .progressTrack > span {
+    transition: none !important;
+  }
+}

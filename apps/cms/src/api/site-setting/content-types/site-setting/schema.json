@@ -1,0 +1,43 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_setting",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "Site Setting"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "site_name": {
+      "type": "string",
+      "default": "BRAINTEK AI Solutions & Consultancies"
+    },
+    "primary_domain": {
+      "type": "string",
+      "default": "https://braintek.ae"
+    },
+    "primary_email": {
+      "type": "email",
+      "default": "info@braintek.ae"
+    },
+    "location": {
+      "type": "string",
+      "default": "Abu Dhabi, UAE"
+    },
+    "default_meta_title": {
+      "type": "string"
+    },
+    "default_meta_description": {
+      "type": "text"
+    },
+    "social_links": {
+      "type": "json"
+    },
+    "footer_text": {
+      "type": "text"
+    }
+  }
+}

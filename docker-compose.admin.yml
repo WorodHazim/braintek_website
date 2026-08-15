@@ -1,0 +1,11 @@
+services:
+  cms:
+    environment:
+      DASHBOARD_API_KEY: ${DASHBOARD_API_KEY}
+
+  web:
+    environment:
+      CMS_INTERNAL_URL: http://cms:1337
+      DASHBOARD_API_KEY: ${DASHBOARD_API_KEY}
+      DASHBOARD_SESSION_SECRET: ${DASHBOARD_SESSION_SECRET}
+      NEXT_PUBLIC_CMS_URL: ${NEXT_PUBLIC_CMS_URL:-http://localhost:1337}

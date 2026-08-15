@@ -1,0 +1,431 @@
+.section {
+  overflow: hidden;
+  padding: clamp(96px, 8vw, 132px) 0 50px;
+  background: #f5f7fa;
+  color: #0a2036;
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: .42fr 1.58fr;
+  gap: clamp(42px, 7vw, 106px);
+  align-items: start;
+  padding-bottom: clamp(54px, 5vw, 76px);
+}
+
+.kicker {
+  margin: 8px 0 0;
+  color: #0b7c7a;
+  font-size: 9px;
+  font-weight: 760;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.introCopy {
+  min-width: 0;
+}
+
+.introCopy h2 {
+  max-width: 1010px;
+  margin: 0;
+  color: #0a2036;
+  font-family: var(--font-display), Manrope, Arial, sans-serif;
+  font-size: clamp(52px, 5.6vw, 84px);
+  font-weight: 500;
+  line-height: .94;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+}
+
+.introBottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 34px;
+  align-items: end;
+  margin-top: 28px;
+}
+
+.introBottom > p {
+  max-width: 720px;
+  margin: 0;
+  color: #657d8f;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls button {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(16, 42, 67, .15);
+  border-radius: 50%;
+  background: transparent;
+  color: #0a2036;
+  cursor: pointer;
+  transition:
+    color .25s ease,
+    background .25s ease,
+    transform .25s ease;
+}
+
+.controls button:hover {
+  color: #fff;
+  background: #0a2036;
+  transform: translateY(-2px);
+}
+
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(340px, 27vw, 470px);
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding:
+    0
+    max(24px, calc((100vw - var(--max)) / 2))
+    18px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+
+  /*
+    Important:
+    Do not convert vertical wheel input into horizontal scrolling.
+    This lets the page continue scrolling normally while the mouse
+    is over a sector card.
+  */
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  height: min(680px, 72vh);
+  min-height: 570px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  background: #06182b;
+  color: #fff;
+}
+
+.image,
+.imageFallback {
+  position: absolute;
+  z-index: -5;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.015);
+  filter: saturate(.88) contrast(1.03) brightness(.82);
+  transition:
+    transform .8s cubic-bezier(.22, 1, .36, 1),
+    filter .55s ease;
+}
+
+.imageFallback {
+  background:
+    radial-gradient(circle at 70% 40%, rgba(14, 165, 164, .18), transparent 30%),
+    linear-gradient(145deg, #0d2b44, #06182b 70%);
+}
+
+.card:hover .image,
+.card:focus-visible .image,
+.active .image {
+  transform: scale(1.055);
+  filter: saturate(.98) contrast(1.03) brightness(.86);
+}
+
+.imageGrid {
+  position: absolute;
+  z-index: -3;
+  inset: 0;
+  opacity: .26;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(130, 227, 220, .075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(130, 227, 220, .055) 1px, transparent 1px);
+  background-size: 62px 62px;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 38%, #000 100%);
+}
+
+.overlay {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3, 16, 29, .10) 0%,
+      rgba(3, 16, 29, .18) 28%,
+      rgba(3, 16, 29, .66) 65%,
+      rgba(3, 14, 27, .97) 100%
+    ),
+    linear-gradient(90deg, rgba(3, 16, 29, .28), transparent 62%);
+}
+
+.top {
+  position: absolute;
+  left: 26px;
+  right: 24px;
+  top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.index {
+  color: #8ce8e2;
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: .14em;
+}
+
+.signal {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(126, 228, 221, .25);
+  border-radius: 50%;
+}
+
+.signal::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(126, 228, 221, .20);
+  border-radius: 50%;
+}
+
+.signal i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #74e0da;
+  box-shadow: 0 0 0 4px rgba(116, 224, 218, .08);
+}
+
+.copy {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 28px;
+  min-width: 0;
+}
+
+.officialName {
+  max-width: 92%;
+  margin: 0 0 13px;
+  overflow: hidden;
+  color: rgba(187, 213, 223, .64);
+  font-size: 8.5px;
+  font-weight: 730;
+  line-height: 1.45;
+  letter-spacing: .11em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.copy h3 {
+  max-width: 100%;
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display), Manrope, Arial, sans-serif;
+  font-size: clamp(38px, 3.2vw, 55px);
+  font-weight: 500;
+  line-height: .91;
+  letter-spacing: -.055em;
+}
+
+.copy h3 span,
+.copy h3 small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.copy h3 small {
+  margin-top: 4px;
+  color: rgba(222, 235, 241, .73);
+  font-size: .66em;
+  font-weight: 470;
+  line-height: 1.02;
+}
+
+.summary {
+  display: -webkit-box;
+  max-width: 96%;
+  margin: 21px 0 0;
+  overflow: hidden;
+  color: rgba(215, 231, 238, .73);
+  font-size: 12.5px;
+  line-height: 1.55;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 23px;
+  color: #8ce8e2;
+  font-size: 10.5px;
+  font-weight: 740;
+  transition: gap .25s ease, color .25s ease;
+}
+
+.card:hover .link,
+.card:focus-visible .link {
+  gap: 12px;
+  color: #fff;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+  padding-top: 12px;
+}
+
+.position {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #61798b;
+  font-size: 9px;
+  font-weight: 730;
+  letter-spacing: .12em;
+}
+
+.position i {
+  width: 28px;
+  height: 1px;
+  background: #0ea5a4;
+}
+
+.progress {
+  height: 1px;
+  overflow: hidden;
+  background: rgba(16, 42, 67, .12);
+}
+
+.progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5a4, #1d4ed8);
+  transform-origin: left;
+  transition: transform .14s linear;
+}
+
+.footer > p {
+  margin: 0;
+  color: #768c9c;
+  font-size: 9px;
+  font-weight: 720;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .intro {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .rail {
+    grid-auto-columns: min(430px, 76vw);
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 74px 0 36px;
+  }
+
+  .intro {
+    padding-bottom: 38px;
+  }
+
+  .introCopy h2 {
+    font-size: clamp(42px, 12vw, 58px);
+  }
+
+  .introBottom {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .controls {
+    justify-content: flex-end;
+  }
+
+  .rail {
+    grid-auto-columns: 84vw;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .card {
+    height: 610px;
+    min-height: 560px;
+  }
+
+  .copy h3 {
+    font-size: 42px;
+  }
+
+  .footer {
+    grid-template-columns: auto 1fr;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .footer > p {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .controls button,
+  .image,
+  .link,
+  .progress span {
+    transition: none !important;
+  }
+
+  .rail {
+    scroll-behavior: auto;
+  }
+}
