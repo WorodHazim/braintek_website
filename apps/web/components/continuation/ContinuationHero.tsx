@@ -239,17 +239,44 @@ export function ContinuationHero(props: ContinuationHeroProps) {
     props.secondaryCta,
   );
 
+  const heroSource = `${eyebrow} ${title}`.toLowerCase();
+
+  const automaticImage =
+    heroSource.includes('partner') || heroSource.includes('relationship')
+      ? '/pages/heroes/partners.jpg'
+      : heroSource.includes('insight') ||
+          heroSource.includes('resource') ||
+          heroSource.includes('thinking')
+        ? '/pages/heroes/insights.jpg'
+        : heroSource.includes('contact') ||
+            heroSource.includes('consultation') ||
+            heroSource.includes('challenge')
+          ? '/pages/heroes/contact.jpg'
+          : heroSource.includes('team') || heroSource.includes('expert')
+            ? '/pages/heroes/expert-team.jpg'
+            : '/pages/heroes/about.jpg';
+
   const image =
     props.image ||
     props.backgroundImage ||
     asText(props.heroImage) ||
-    '/services/services-hero.jpg';
+    automaticImage;
 
   const context = heroContext(`${eyebrow} ${title}`);
 
   return (
     <section className={styles.hero}>
-      <img className={styles.background} src={image} alt="" aria-hidden="true" />
+      <img
+        className={styles.background}
+        src={image}
+        alt=""
+        aria-hidden="true"
+        onError={(event) => {
+          if (!event.currentTarget.src.endsWith('/services/services-hero.jpg')) {
+            event.currentTarget.src = '/services/services-hero.jpg';
+          }
+        }}
+      />
       <div className={styles.overlay} aria-hidden="true" />
       <div className={styles.grid} aria-hidden="true" />
 

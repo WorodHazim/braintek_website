@@ -1,6 +1,23 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, ArrowUpRight, BarChart3, BookOpen, CheckCircle2, ExternalLink, Inbox, LogOut, Mail, Menu, Phone, RefreshCw, Save, Search, Send, Target, UsersRound, X } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  BarChart3,
+  BookOpen,
+  ExternalLink,
+  Inbox,
+  LogOut,
+  Mail,
+  Menu,
+  Phone,
+  RefreshCw,
+  Save,
+  Search,
+  Send,
+  X,
+} from 'lucide-react';
 import styles from './AdminApp.module.css';
 
 type Status='NEW'|'IN_REVIEW'|'CONTACTED'|'QUALIFIED'|'CLOSED'|'ARCHIVED';
@@ -17,17 +34,82 @@ export function AdminApp({email}:{email:string}){
  const [summary,setSummary]=useState<Summary|null>(null);const [items,setItems]=useState<Submission[]>([]);const [selected,setSelected]=useState<Submission|null>(null);
  const [query,setQuery]=useState('');const [filter,setFilter]=useState('');const [loading,setLoading]=useState(false);const [error,setError]=useState('');const [menu,setMenu]=useState(false);
  const [status,setStatus]=useState<Status>('NEW');const [assignee,setAssignee]=useState('');const [follow,setFollow]=useState('');const [notes,setNotes]=useState('');const [updateNote,setUpdateNote]=useState('');const [activity,setActivity]=useState('');
- async function api(url:string,init?:RequestInit){const r=await fetch(url,{...init,cache:'no-store'});if(r.status===401){window.location.assign('/admin/login');throw new Error('Authentication required.')}const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data?.error||data?.message||'Request failed.');return data}
- async function loadSummary(){setLoading(true);setError('');try{const d=await api('/api/admin/dashboard/summary');setSummary(d.data)}catch(e){setError(e instanceof Error?e.message:'Unable to load dashboard.')}finally{setLoading(false)}}
- async function loadItems(){setLoading(true);setError('');try{const p=new URLSearchParams({page:'1',pageSize:'100'});if(query)p.set('q',query);if(filter)p.set('status',filter);const d=await api(`/api/admin/submissions?${p}`);setItems(d.data||[])}catch(e){setError(e instanceof Error?e.message:'Unable to load inquiries.')}finally{setLoading(false)}}
+ const api = useCallback(async (url: string, init?: RequestInit) => {
+    const r = await fetch(url, { ...init, cache: 'no-store' });
+
+    if (r.status === 401) {
+      window.location.assign('/admin/login');
+      throw new Error('Authentication required.');
+    }
+
+    const data = await r.json().catch(() => ({}));
+
+    if (!r.ok) {
+      throw new Error(data?.error || data?.message || 'Request failed.');
+    }
+
+    return data;
+  }, []);
+
+  const loadSummary = useCallback(async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const d = await api('/api/admin/dashboard/summary');
+      setSummary(d.data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Unable to load dashboard.');
+    } finally {
+      setLoading(false);
+    }
+  }, [api]);
+
+  const loadItems = useCallback(async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const p = new URLSearchParams({
+        page: '1',
+        pageSize: '100',
+      });
+
+      if (query) p.set('q', query);
+      if (filter) p.set('status', filter);
+
+      const d = await api(`/api/admin/submissions?${p}`);
+      setItems(d.data || []);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Unable to load inquiries.');
+    } finally {
+      setLoading(false);
+    }
+  }, [api, query, filter]);
  async function openItem(id:string){setLoading(true);setError('');try{const d=await api(`/api/admin/submissions/${encodeURIComponent(id)}`);const x=d.data as Submission;setSelected(x);setStatus(x.status);setAssignee(x.assignee||'');setFollow(localDate(x.follow_up_at));setNotes(x.internal_notes||'');setUpdateNote('');setActivity('')}catch(e){setError(e instanceof Error?e.message:'Unable to load inquiry.')}finally{setLoading(false)}}
- useEffect(()=>{loadSummary()},[]);useEffect(()=>{if(tab==='inquiries'&&!selected){const t=setTimeout(loadItems,query?250:0);return()=>clearTimeout(t)}},[tab,query,filter,selected]);
+ useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void loadSummary();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [loadSummary]);
+
+  useEffect(() => {
+    if (tab !== 'inquiries' || selected) return;
+
+    const timer = window.setTimeout(() => {
+      void loadItems();
+    }, query ? 250 : 0);
+
+    return () => window.clearTimeout(timer);
+  }, [tab, query, selected, loadItems]);
  async function save(){if(!selected)return;setLoading(true);setError('');try{await api(`/api/admin/submissions/${encodeURIComponent(selected.documentId)}`,{method:'PATCH',headers:{'content-type':'application/json'},body:JSON.stringify({status,assignee,follow_up_at:follow?new Date(follow).toISOString():null,internal_notes:notes,note:updateNote})});await openItem(selected.documentId);await loadSummary()}catch(e){setError(e instanceof Error?e.message:'Unable to save inquiry.')}finally{setLoading(false)}}
  async function addActivity(){if(!selected||!activity.trim())return;setLoading(true);try{await api(`/api/admin/submissions/${encodeURIComponent(selected.documentId)}/log`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({note:activity})});setActivity('');await openItem(selected.documentId)}catch(e){setError(e instanceof Error?e.message:'Unable to add note.')}finally{setLoading(false)}}
  async function logout(){await fetch('/api/admin/auth/logout',{method:'POST'});window.location.assign('/admin/login')}
  const cards=useMemo(()=>statuses.filter(s=>s!=='ARCHIVED'),[]);
  return <div className={styles.viewport} data-braintek-admin-root>
-  <aside className={`${styles.sidebar} ${menu?styles.open:''}`}><div className={styles.brand}><img src="/brand/logo-primary.png" alt="BrainTek"/><span>Operations</span><button onClick={()=>setMenu(false)}><X size={17}/></button></div>
+  <aside className={`${styles.sidebar} ${menu?styles.open:''}`}><div className={styles.brand}><img src="/brand/braintek-logo.png" alt="BrainTek"/><span>Operations</span><button onClick={()=>setMenu(false)}><X size={17}/></button></div>
    <nav><p>Workspace</p><button className={tab==='overview'?styles.active:''} onClick={()=>{setTab('overview');setSelected(null);setMenu(false)}}><BarChart3 size={17}/>Dashboard</button><button className={tab==='inquiries'?styles.active:''} onClick={()=>{setTab('inquiries');setSelected(null);setMenu(false)}}><Inbox size={17}/>Inquiries</button><button className={tab==='content'?styles.active:''} onClick={()=>{setTab('content');setSelected(null);setMenu(false)}}><BookOpen size={17}/>Content overview</button><p>CMS</p><a href={cms} target="_blank" rel="noreferrer"><ExternalLink size={16}/>Open Strapi CMS</a></nav>
    <footer><span>Signed in</span><strong>{email}</strong><button onClick={logout}><LogOut size={15}/>Sign out</button></footer>
   </aside>

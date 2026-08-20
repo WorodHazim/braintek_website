@@ -25,7 +25,8 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { ContinuationHero } from './ContinuationHero';
+import { InstitutionalHero } from './InstitutionalHero';
+import { HomeFinalCTA } from '@/components/HomeFinalCTA';
 import styles from './ContactExperience.module.css';
 
 type TaxonomyItem = {
@@ -80,9 +81,7 @@ const initialForm = (
 const locationLabel =
   'Beside Khalidiya Mall, Building 22, M Floor, Abu Dhabi, UAE';
 
-const mapsHref =
-  'https://www.google.com/maps/search/?api=1&query=' +
-  encodeURIComponent(locationLabel);
+const mapsHref = 'https://maps.app.goo.gl/vjw2YqvzC6Q3cCnEA';
 
 const mapsEmbed =
   'https://www.google.com/maps?q=' +
@@ -214,15 +213,21 @@ export function ContactExperience({
   }
 
   return (
-    <main className={styles.page}>
-      <ContinuationHero
+    <main className={`home-v2 ${styles.page}`}>
+      <InstitutionalHero
+        variant="contact"
         eyebrow="Contact / Book a Consultation"
         title={heroTitle}
         body={heroBody}
-        primaryLabel="Start the inquiry"
-        primaryHref="#consultation"
-        secondaryLabel="Email BRAINTEK"
-        secondaryHref="mailto:info@braintek.ae"
+        modelLabel="Conversation flow"
+        rows={[
+          { number: '01', title: 'Understand', note: 'Institutional context' },
+          { number: '02', title: 'Align', note: 'Relevant capability' },
+          { number: '03', title: 'Shape', note: 'Practical pathway' },
+          { number: '04', title: 'Move', note: 'Next conversation' },
+        ]}
+        primary={{ label: 'Start the inquiry', href: '#consultation' }}
+        secondary={{ label: 'Email BRAINTEK', href: 'mailto:info@braintek.ae' }}
       />
 
       <section
@@ -619,7 +624,15 @@ export function ContactExperience({
       <section className={styles.channels}>
         <div className={`container ${styles.channelsIntro}`}>
           <p className={styles.kicker}>Direct contact</p>
-          <h2>Choose the channel that fits the conversation.</h2>
+
+          <div className={styles.sectionHeading}>
+            <h2>Choose the channel that fits the conversation.</h2>
+
+            <p>
+              Call, email or continue to the office location depending on the
+              kind of conversation you want to start with BRAINTEK.
+            </p>
+          </div>
         </div>
 
         <div className={`container ${styles.channelGrid}`}>
@@ -667,18 +680,17 @@ export function ContactExperience({
         aria-labelledby="location-title"
       >
         <div className={`container ${styles.locationHeader}`}>
-          <div>
-            <p className={styles.kicker}>Location & presence</p>
-            <h2 id="location-title">
-              Meet BRAINTEK in Abu Dhabi.
-            </h2>
-          </div>
+          <p className={styles.kicker}>Location & presence</p>
 
-          <p>
-            Based in Abu Dhabi, BRAINTEK engages with institutions
-            seeking intelligent systems, stronger workforce
-            capability and sustainable operational improvement.
-          </p>
+          <div className={styles.sectionHeading}>
+            <h2 id="location-title">Meet BRAINTEK in Abu Dhabi.</h2>
+
+            <p>
+              Based in Abu Dhabi, BRAINTEK engages with institutions seeking
+              intelligent systems, stronger workforce capability and
+              sustainable operational improvement.
+            </p>
+          </div>
         </div>
 
         <div className={`container ${styles.locationGrid}`}>
@@ -762,7 +774,15 @@ export function ContactExperience({
       <section className={styles.expect}>
         <div className={`container ${styles.expectHeader}`}>
           <p className={styles.kicker}>What happens next</p>
-          <h2>A clear path from inquiry to the right conversation.</h2>
+
+          <div className={styles.sectionHeading}>
+            <h2>A clear path from inquiry to the right conversation.</h2>
+
+            <p>
+              The inquiry is reviewed, routed and discussed before any
+              structured scope or implementation pathway is shaped.
+            </p>
+          </div>
         </div>
 
         <div className={`container ${styles.expectGrid}`}>
@@ -808,27 +828,7 @@ export function ContactExperience({
         </div>
       </section>
 
-      <section className={styles.finalCta}>
-        <div className={styles.finalGrid} aria-hidden="true" />
-        <div className={`container ${styles.finalInner}`}>
-          <div>
-            <p>Prefer a direct conversation?</p>
-            <h2>Make the first contact simple.</h2>
-          </div>
-
-          <div className={styles.finalActions}>
-            <a href="tel:+97122341190">
-              <Phone size={16} />
-              Call 02 234 1190
-            </a>
-
-            <a href="mailto:info@braintek.ae">
-              <Mail size={16} />
-              Email BRAINTEK
-            </a>
-          </div>
-        </div>
-      </section>
+      <HomeFinalCTA />
     </main>
   );
 }

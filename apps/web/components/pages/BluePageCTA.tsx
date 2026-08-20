@@ -18,7 +18,7 @@ export function BluePageCTA({
   buttonHref = '/contact',
 }: Props) {
   return (
-    <section className={styles.section}>
+    <section className={`${styles.section} brand-conversion-section`}>
       <div className={styles.grid} aria-hidden="true" />
       <div className={`container ${styles.inner}`}>
         <div>

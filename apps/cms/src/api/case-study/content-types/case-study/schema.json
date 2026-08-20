@@ -4,7 +4,7 @@
   "info": {
     "singularName": "case-study",
     "pluralName": "case-studies",
-    "displayName": "Case Study"
+    "displayName": "Portfolio / Case Study"
   },
   "options": {
     "draftAndPublish": true
@@ -17,10 +17,20 @@
     },
     "slug": {
       "type": "uid",
-      "targetField": "title"
+      "targetField": "title",
+      "required": true
     },
     "client_type": {
       "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "project_summary": {
+      "type": "text"
+    },
+    "project_date": {
+      "type": "date"
     },
     "challenge": {
       "type": "richtext"
@@ -30,6 +40,32 @@
     },
     "outcome_summary": {
       "type": "richtext"
+    },
+    "client_review": {
+      "type": "text"
+    },
+    "client_review_name": {
+      "type": "string"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "sort_order": {
+      "type": "integer",
+      "default": 100
     },
     "meta_title": {
       "type": "string",
@@ -54,12 +90,7 @@
     },
     "workflow_status": {
       "type": "enumeration",
-      "enum": [
-        "draft",
-        "review",
-        "published",
-        "archived"
-      ],
+      "enum": ["draft", "review", "published", "archived"],
       "default": "draft"
     }
   }

@@ -27,7 +27,7 @@ export const nav: LinkItem[] = [
   { label: 'Services', href: '/services' },
   { label: 'Sectors', href: '/sectors' },
   { label: 'Platforms', href: '/platforms-products' },
-  { label: 'Why BRAINTEK', href: '/why-braintek' },
+  { label: 'Why BRAINTEK', href: '/about#why-braintek' },
   { label: 'Expert Team', href: '/expert-team' },
   { label: 'Partners', href: '/partners' },
   { label: 'Resources & Insights', href: '/insights-resources' },

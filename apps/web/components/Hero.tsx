@@ -1,10 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowDown, ArrowUpRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { LandscapeExperience } from '@/components/landscape/LandscapeExperience';
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+} from 'lucide-react';
+import {
+  AnimatePresence,
+  motion,
+} from 'motion/react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import styles from './Hero.module.css';
 
 type HeroProps = {
@@ -18,7 +27,54 @@ type HeroProps = {
   compact?: boolean;
 };
 
-const SIGNATURE_HEADLINE = 'Intelligence that moves institutions forward.';
+const slides = [
+  {
+    image: '/home/hero/hero-01.jpg',
+    fallback: '/home/sectors/government-public-institutions.jpg',
+    titleTop: 'Secure what matters.',
+    titleBottom: 'Move with confidence.',
+    cta: 'Explore cybersecurity',
+    href: '/services',
+  },
+  {
+    image: '/home/hero/hero-02.jpg',
+    fallback: '/home/sectors/institutional-service-operations.jpg',
+    titleTop: 'Intelligence built into',
+    titleBottom: 'the way you work.',
+    cta: 'Explore systems & AI',
+    href: '/services',
+  },
+  {
+    image: '/home/hero/hero-03.jpg',
+    fallback: '/home/sectors/education-academic-institutions.jpg',
+    titleTop: 'Human insight.',
+    titleBottom: 'Measurable capability.',
+    cta: 'Explore human capability',
+    href: '/services',
+  },
+];
+
+function HeroImage({
+  src,
+  fallback,
+}: {
+  src: string;
+  fallback: string;
+}) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const current = failedSrc === src ? fallback : src;
+
+  return (
+    <img
+      src={current}
+      alt=""
+      draggable={false}
+      onError={() => {
+        if (current !== fallback) setFailedSrc(src);
+      }}
+    />
+  );
+}
 
 export function Hero({
   eyebrow,
@@ -30,12 +86,9 @@ export function Hero({
   secondaryHref = '/services',
   compact = false,
 }: HeroProps) {
-  const heroRef = useRef<HTMLElement>(null);
-  const ctaRef = useRef<HTMLAnchorElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [cursorVisible, setCursorVisible] = useState(false);
-  const [headlineHover, setHeadlineHover] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -46,95 +99,37 @@ export function Hero({
   }, []);
 
   useEffect(() => {
-    if (compact || reducedMotion || !heroRef.current) return;
+    if (compact || reducedMotion || paused) return;
 
-    const ctx = gsap.context(() => {
-      gsap
-        .timeline({ defaults: { ease: 'power4.out' } })
-        .fromTo(
-          '[data-hero-line]',
-          { yPercent: 118, opacity: 0 },
-          { yPercent: 0, opacity: 1, duration: 1.02, stagger: 0.1, delay: 0.46 },
-        )
-        .fromTo(
-          '[data-hero-cta]',
-          { y: 18, opacity: 0, scale: 0.97 },
-          { y: 0, opacity: 1, scale: 1, duration: 0.72 },
-          '-=0.42',
-        )
-        .fromTo(
-          '[data-hero-scroll]',
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.55 },
-          '-=0.2',
-        );
-    }, heroRef);
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % slides.length);
+    }, 6800);
 
-    return () => ctx.revert();
-  }, [compact, reducedMotion]);
-
-  useEffect(() => {
-    if (compact || reducedMotion || !heroRef.current || !cursorRef.current) return;
-
-    const media = window.matchMedia('(hover: hover) and (pointer: fine)');
-    if (!media.matches) return;
-
-    const hero = heroRef.current;
-    const cursor = cursorRef.current;
-
-    const xTo = gsap.quickTo(cursor, 'x', { duration: 0.28, ease: 'power3.out' });
-    const yTo = gsap.quickTo(cursor, 'y', { duration: 0.28, ease: 'power3.out' });
-
-    const handleMove = (event: PointerEvent) => {
-      const rect = hero.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-
-      xTo(x);
-      yTo(y);
-
-      hero.style.setProperty('--pointer-x', `${(x / rect.width) * 100}%`);
-      hero.style.setProperty('--pointer-y', `${(y / rect.height) * 100}%`);
-
-      const rotateX = gsap.utils.clamp(-8, 8, ((y / rect.height) - 0.5) * -7);
-      const rotateY = gsap.utils.clamp(-8, 8, ((x / rect.width) - 0.5) * 7);
-      hero.style.setProperty('--headline-rotate-x', `${rotateX}deg`);
-      hero.style.setProperty('--headline-rotate-y', `${rotateY}deg`);
-    };
-
-    const enter = () => setCursorVisible(true);
-    const leave = () => {
-      setCursorVisible(false);
-      hero.style.setProperty('--pointer-x', '50%');
-      hero.style.setProperty('--pointer-y', '50%');
-      hero.style.setProperty('--headline-rotate-x', '0deg');
-      hero.style.setProperty('--headline-rotate-y', '0deg');
-    };
-
-    hero.addEventListener('pointermove', handleMove);
-    hero.addEventListener('pointerenter', enter);
-    hero.addEventListener('pointerleave', leave);
-
-    return () => {
-      hero.removeEventListener('pointermove', handleMove);
-      hero.removeEventListener('pointerenter', enter);
-      hero.removeEventListener('pointerleave', leave);
-    };
-  }, [compact, reducedMotion]);
+    return () => window.clearInterval(timer);
+  }, [compact, reducedMotion, paused]);
 
   if (compact) {
     return (
       <section className="hero hero-compact">
         <div className="hero-grid-lines" aria-hidden="true" />
-        <div className="hero-orbit" aria-hidden="true"><span /><span /><span /></div>
         <div className="container hero-inner">
           <div className="hero-copy" data-reveal>
             <p className="eyebrow light">{eyebrow}</p>
             <h1>{title}</h1>
             <p className="hero-body">{body}</p>
+
             <div className="hero-actions">
-              <Link className="button button-light" href={primaryHref}>{primary}<ArrowUpRight size={17} /></Link>
-              <Link className="button button-ghost-light" href={secondaryHref}>{secondary}</Link>
+              <Link className="button button-light" href={primaryHref}>
+                {primary}
+                <ArrowUpRight size={17} />
+              </Link>
+
+              <Link
+                className="button button-ghost-light"
+                href={secondaryHref}
+              >
+                {secondary}
+              </Link>
             </div>
           </div>
         </div>
@@ -142,89 +137,160 @@ export function Hero({
     );
   }
 
-  const scrollNext = () => {
-    const next = heroRef.current?.nextElementSibling;
-    if (next instanceof HTMLElement) {
-      next.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
-    }
-  };
+  const current = slides[active];
 
-  const handleCtaMove = (event: React.PointerEvent<HTMLAnchorElement>) => {
-    if (reducedMotion || !ctaRef.current) return;
-    const rect = ctaRef.current.getBoundingClientRect();
-    const x = (event.clientX - rect.left - rect.width / 2) * 0.12;
-    const y = (event.clientY - rect.top - rect.height / 2) * 0.16;
-    gsap.to(ctaRef.current, { x, y, duration: 0.34, ease: 'power3.out', overwrite: true });
-  };
+  const previous = () =>
+    setActive((value) => (value - 1 + slides.length) % slides.length);
 
-  const resetCta = () => {
-    if (!ctaRef.current) return;
-    gsap.to(ctaRef.current, { x: 0, y: 0, duration: 0.5, ease: 'power3.out', overwrite: true });
-  };
+  const next = () =>
+    setActive((value) => (value + 1) % slides.length);
 
   return (
-    <section ref={heroRef} className={styles.hero} aria-label="BRAINTEK introduction">
-      <LandscapeExperience reducedMotion={reducedMotion} />
-      <div className={styles.topShade} aria-hidden="true" />
-      <div className={styles.centerVeil} aria-hidden="true" />
-      <div className={styles.edgeShade} aria-hidden="true" />
-      <div className={styles.pointerGlow} aria-hidden="true" />
+    <section
+      className={styles.hero}
+      aria-roledescription="carousel"
+      aria-label="BRAINTEK introduction"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className={styles.media}>
+        <AnimatePresence initial={false} mode="sync">
+          <motion.div
+            key={current.image}
+            className={styles.slideImage}
+            initial={
+              reducedMotion
+                ? { opacity: 1 }
+                : {
+                    opacity: 0,
+                    scale: 1.03,
+                    clipPath: 'inset(0 0 0 9%)',
+                  }
+            }
+            animate={{
+              opacity: 1,
+              scale: 1,
+              clipPath: 'inset(0 0 0 0%)',
+            }}
+            exit={
+              reducedMotion
+                ? { opacity: 0 }
+                : {
+                    opacity: 0,
+                    scale: 1.01,
+                    clipPath: 'inset(0 9% 0 0)',
+                  }
+            }
+            transition={{
+              duration: reducedMotion ? 0 : 1.05,
+              ease: [0.76, 0, 0.24, 1],
+            }}
+          >
+            <HeroImage src={current.image} fallback={current.fallback} />
+          </motion.div>
+        </AnimatePresence>
 
-      <div className={styles.content}>
-        <div
-          className={`${styles.headlineInteractive}${headlineHover ? ` ${styles.isHeadlineHover}` : ''}`}
-          onPointerEnter={() => setHeadlineHover(true)}
-          onPointerLeave={() => setHeadlineHover(false)}
+        <div className={styles.imageTone} aria-hidden="true" />
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          className={styles.content}
+          key={active}
+          initial={reducedMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            duration: reducedMotion ? 0 : 0.42,
+            delay: reducedMotion ? 0 : 0.12,
+          }}
         >
-          <h1 className={styles.headline} aria-label={SIGNATURE_HEADLINE}>
-            <span className={styles.lineMask}>
-              <span data-hero-line>Intelligence that moves</span>
+          <motion.span
+            className={styles.accent}
+            initial={reducedMotion ? false : { scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{
+              duration: reducedMotion ? 0 : 0.55,
+              delay: reducedMotion ? 0 : 0.16,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+
+          <h1 aria-label={`${current.titleTop} ${current.titleBottom}`}>
+            <span className={styles.titleMask}>
+              <motion.span
+                initial={reducedMotion ? false : { y: '110%' }}
+                animate={{ y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0 : 0.72,
+                  delay: reducedMotion ? 0 : 0.18,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                {current.titleTop}
+              </motion.span>
             </span>
-            <span className={styles.lineMask}>
-              <span data-hero-line>institutions forward.</span>
+
+            <span className={styles.titleMask}>
+              <motion.span
+                initial={reducedMotion ? false : { y: '110%' }}
+                animate={{ y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0 : 0.74,
+                  delay: reducedMotion ? 0 : 0.25,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                {current.titleBottom}
+              </motion.span>
             </span>
           </h1>
 
-          <div className={styles.headlineOverlay} aria-hidden="true">
-            <span className={styles.lineMask}><span>Intelligence that moves</span></span>
-            <span className={styles.lineMask}><span>institutions forward.</span></span>
-          </div>
+          <motion.div
+            className={styles.actionRow}
+            initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reducedMotion ? 0 : 0.48,
+              delay: reducedMotion ? 0 : 0.42,
+            }}
+          >
+            <Link className={styles.cta} href={current.href}>
+              <span>{current.cta}</span>
+              <ArrowUpRight size={14} />
+            </Link>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+
+      <div className={styles.sliderUi}>
+        <div className={styles.dots} aria-label="Hero slides">
+          {slides.map((slide, index) => (
+            <button
+              key={`${slide.titleTop}-${index}`}
+              type="button"
+              className={index === active ? styles.dotActive : ''}
+              onClick={() => setActive(index)}
+              aria-label={`Show slide ${index + 1}`}
+              aria-current={index === active ? 'true' : undefined}
+            >
+              <span />
+            </button>
+          ))}
         </div>
 
-        <div className={styles.ctaWrap} data-hero-cta>
-          <Link
-            ref={ctaRef}
-            className={styles.cta}
-            href={secondaryHref || '/services'}
-            onPointerMove={handleCtaMove}
-            onPointerLeave={resetCta}
-            onBlur={resetCta}
-          >
-            <span>Explore BRAINTEK</span>
-            <span className={styles.ctaArrow} aria-hidden="true"><ArrowUpRight size={16} /></span>
-          </Link>
+        <div className={styles.controls}>
+          <button type="button" onClick={previous} aria-label="Previous hero slide">
+            <ArrowLeft size={15} />
+            <span>Prev</span>
+          </button>
+          <i aria-hidden="true" />
+          <button type="button" onClick={next} aria-label="Next hero slide">
+            <span>Next</span>
+            <ArrowRight size={15} />
+          </button>
         </div>
       </div>
-
-      {!reducedMotion && (
-        <div
-          ref={cursorRef}
-          className={`${styles.cursor}${cursorVisible ? ` ${styles.cursorVisible}` : ''}${headlineHover ? ` ${styles.cursorActive}` : ''}`}
-          aria-hidden="true"
-        >
-          <span>{headlineHover ? 'MOVE' : 'BRAIN'}</span>
-        </div>
-      )}
-
-      <button
-        type="button"
-        className={styles.scrollCue}
-        onClick={scrollNext}
-        aria-label="Scroll to the next section"
-        data-hero-scroll
-      >
-        <ArrowDown size={15} />
-      </button>
     </section>
   );
 }

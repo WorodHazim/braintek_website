@@ -2,13 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
   ArrowLeft,
-  ArrowRight,
   ArrowUpRight,
   Check,
-  ChevronRight,
 } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { cms } from '@/lib/cms';
+import { HomeFinalCTA } from '@/components/HomeFinalCTA';
 import styles from './SectorDetailPage.module.css';
 
 type SectorRecord = {
@@ -47,6 +46,7 @@ type SectorExperience = {
 
 const SECTOR_COPY: Record<string, SectorExperience> = {
   government: {
+    // EXACT SAME COVER used by the Government card on the Sectors page.
     image: '/home/sectors/government-public-institutions.jpg',
     displayTitle: 'Government',
     displaySubtitle: 'Public Institutions',
@@ -63,10 +63,20 @@ const SECTOR_COPY: Record<string, SectorExperience> = {
       'Capability-building for leaders, managers and operational teams',
       'Responsible AI implementation that supports governance and accountability',
     ],
-    serviceKeywords: ['cyber', 'monitoring', 'compliance', 'workflow', 'custom', 'ai integration', 'psychometric'],
+    serviceKeywords: [
+      'cyber',
+      'monitoring',
+      'compliance',
+      'workflow',
+      'custom',
+      'ai integration',
+      'psychometric',
+    ],
     productKeywords: ['psytest', 'ailex', 'scheduler', 'opspilot'],
   },
+
   education: {
+    // EXACT SAME COVER used by the Education card.
     image: '/home/sectors/education-academic-institutions.jpg',
     displayTitle: 'Education',
     displaySubtitle: 'Academic Institutions',
@@ -83,10 +93,19 @@ const SECTOR_COPY: Record<string, SectorExperience> = {
       'AI-enabled support and automation for educational operations',
       'Digital protection and continuity for education environments',
     ],
-    serviceKeywords: ['workflow', 'custom', 'ai integration', 'psychometric', 'teacher', 'training'],
+    serviceKeywords: [
+      'workflow',
+      'custom',
+      'ai integration',
+      'psychometric',
+      'teacher',
+      'training',
+    ],
     productKeywords: ['psytest', 'ailex', 'scheduler', 'skoolee'],
   },
+
   enterprise: {
+    // EXACT SAME COVER used by the Enterprise card.
     image: '/home/sectors/corporate-enterprise-organizations.jpg',
     displayTitle: 'Enterprise',
     displaySubtitle: 'Corporate Organizations',
@@ -103,11 +122,20 @@ const SECTOR_COPY: Record<string, SectorExperience> = {
       'Leadership and workforce development linked to real capability requirements',
       'AI enablement for teams operating in modern performance environments',
     ],
-    serviceKeywords: ['cyber', 'workflow', 'custom', 'ai integration', 'consultancy', 'leadership'],
+    serviceKeywords: [
+      'cyber',
+      'workflow',
+      'custom',
+      'ai integration',
+      'consultancy',
+      'leadership',
+    ],
     productKeywords: ['ailex', 'opspilot', 'sentinelshield', 'psytest'],
   },
+
   human: {
-    image: '/home/sectors/human-capital-hr-talent-development.jpg',
+    // These are the SAME renamed cover files now used by HomeSectors.
+    image: '/home/sectors/sector-human-capital.jpg',
     displayTitle: 'Human Capital',
     displaySubtitle: 'HR & Talent',
     audience:
@@ -123,11 +151,19 @@ const SECTOR_COPY: Record<string, SectorExperience> = {
       'AI enablement pathways for HR and learning functions',
       'Workforce development aligned with organizational priorities',
     ],
-    serviceKeywords: ['psychometric', 'leadership', 'training', 'capability', 'ai'],
+    serviceKeywords: [
+      'psychometric',
+      'leadership',
+      'training',
+      'capability',
+      'ai',
+    ],
     productKeywords: ['psytest', 'ailex'],
   },
+
   training: {
-    image: '/home/sectors/training-professional-development.jpg',
+    // EXACT SAME renamed cover used by Professional Development card.
+    image: '/home/sectors/sector-training.jpg',
     displayTitle: 'Professional Development',
     displaySubtitle: 'Training & Consulting',
     audience:
@@ -143,10 +179,18 @@ const SECTOR_COPY: Record<string, SectorExperience> = {
       'Evaluation approaches that improve evidence of value, quality and impact',
       'Platform-linked development pathways where suitable',
     ],
-    serviceKeywords: ['psychometric', 'training', 'leadership', 'teacher', 'ai'],
+    serviceKeywords: [
+      'psychometric',
+      'training',
+      'leadership',
+      'teacher',
+      'ai',
+    ],
     productKeywords: ['psytest', 'ailex'],
   },
+
   operations: {
+    // EXACT SAME COVER used by Service Operations card.
     image: '/home/sectors/institutional-service-operations.jpg',
     displayTitle: 'Service Operations',
     displaySubtitle: 'Institutional Services',
@@ -163,7 +207,13 @@ const SECTOR_COPY: Record<string, SectorExperience> = {
       'Digital protection and continuity measures for service operations',
       'Longer-term improvement models that support sustainability and resilience',
     ],
-    serviceKeywords: ['workflow', 'custom', 'ai integration', 'cyber', 'training'],
+    serviceKeywords: [
+      'workflow',
+      'custom',
+      'ai integration',
+      'cyber',
+      'training',
+    ],
     productKeywords: ['opspilot', 'scheduler', 'sentinelshield'],
   },
 };
@@ -171,26 +221,74 @@ const SECTOR_COPY: Record<string, SectorExperience> = {
 function sectorKey(sector: SectorRecord): keyof typeof SECTOR_COPY {
   const source = `${sector.slug} ${sector.name}`.toLowerCase();
 
-  if (source.includes('government') || source.includes('public')) return 'government';
-  if (source.includes('education') || source.includes('academic')) return 'education';
-  if (source.includes('corporate') || source.includes('enterprise')) return 'enterprise';
-  if (source.includes('human') || source.includes('talent') || source.includes('hr')) return 'human';
-  if (source.includes('training') || source.includes('consulting') || source.includes('professional')) return 'training';
+  if (source.includes('government') || source.includes('public')) {
+    return 'government';
+  }
+
+  if (source.includes('education') || source.includes('academic')) {
+    return 'education';
+  }
+
+  if (source.includes('corporate') || source.includes('enterprise')) {
+    return 'enterprise';
+  }
+
+  if (
+    source.includes('human') ||
+    source.includes('talent') ||
+    source.includes('hr')
+  ) {
+    return 'human';
+  }
+
+  if (
+    source.includes('training') ||
+    source.includes('consulting') ||
+    source.includes('professional')
+  ) {
+    return 'training';
+  }
 
   return 'operations';
 }
 
 function normalize(value: string | null | undefined) {
-  return (value ?? '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  return (value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function productKey(slug: string) {
+  return slug.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function displayProductName(product: ProductRecord) {
+  const key = productKey(product.slug);
+  const rawName = product.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '');
+
+  if (key === 'opspilot' || key === 'opilot' || rawName === 'opspilot') {
+    return 'O-PILOT';
+  }
+
+  return product.name;
 }
 
 function rankedServices(services: ServiceRecord[], keywords: string[]) {
   return [...services]
     .map((service) => {
-      const source = normalize(`${service.name} ${service.pillar} ${service.summary}`);
+      const source = normalize(
+        `${service.name} ${service.pillar} ${service.summary}`,
+      );
+
       const score = keywords.reduce(
         (total, keyword, index) =>
-          total + (source.includes(normalize(keyword)) ? keywords.length - index : 0),
+          total +
+          (source.includes(normalize(keyword))
+            ? keywords.length - index
+            : 0),
         0,
       );
 
@@ -204,10 +302,16 @@ function rankedServices(services: ServiceRecord[], keywords: string[]) {
 function rankedProducts(products: ProductRecord[], keywords: string[]) {
   return [...products]
     .map((product) => {
-      const source = normalize(`${product.slug} ${product.name} ${product.category} ${product.summary}`);
+      const source = normalize(
+        `${product.slug} ${product.name} ${product.category} ${product.summary}`,
+      );
+
       const score = keywords.reduce(
         (total, keyword, index) =>
-          total + (source.includes(normalize(keyword)) ? keywords.length - index : 0),
+          total +
+          (source.includes(normalize(keyword))
+            ? keywords.length - index
+            : 0),
         0,
       );
 
@@ -218,18 +322,24 @@ function rankedProducts(products: ProductRecord[], keywords: string[]) {
     .slice(0, 3);
 }
 
+/*
+  Same transparent PNG assets used by the approved Home Platforms section.
+  This fixes the blank / broken dark platform image blocks visible in the
+  previous sector-detail design.
+*/
 function productImage(product: ProductRecord) {
-  const key = normalize(product.slug).replace(/\s+/g, '');
+  const key = productKey(product.slug);
 
   const local: Record<string, string> = {
-    psytest: '/home/platforms/psytest.jpg',
-    pytest: '/home/platforms/psytest.jpg',
-    ailex: '/home/platforms/ailex.jpg',
-    scheduler: '/home/platforms/scheduler.jpg',
-    skoolee: '/home/platforms/skoolee.jpg',
-    opspilot: '/home/platforms/opspilot.jpg',
-    sentinelshield: '/home/platforms/sentinelshield.jpg',
-    sentineshield: '/home/platforms/sentinelshield.jpg',
+    psytest: '/home/platforms/psytest.png',
+    pytest: '/home/platforms/psytest.png',
+    ailex: '/home/platforms/ailex.png',
+    scheduler: '/home/platforms/scheduler.png',
+    skoolee: '/home/platforms/skoolee.png',
+    opspilot: '/home/platforms/o-pilot.png',
+    opilot: '/home/platforms/o-pilot.png',
+    sentinelshield: '/home/platforms/sentinelshield.png',
+    sentineshield: '/home/platforms/sentinelshield.png',
   };
 
   return local[key] || product.screenshotUrls?.[0] || null;
@@ -292,47 +402,65 @@ export default async function SectorDetailPage({
 
   const { sector, services, products } = data;
   const experience = SECTOR_COPY[sectorKey(sector)];
-  const relatedServices = rankedServices(services, experience.serviceKeywords);
-  const relatedProducts = rankedProducts(products, experience.productKeywords);
 
-  const consultationHref = `/contact?sector=${encodeURIComponent(sector.slug)}`;
+  const relatedServices = rankedServices(
+    services,
+    experience.serviceKeywords,
+  );
+
+  const relatedProducts = rankedProducts(
+    products,
+    experience.productKeywords,
+  );
+
+  const consultationHref =
+    `/contact?sector=${encodeURIComponent(sector.slug)}`;
 
   return (
-    <main id="main-content" className={styles.page}>
+    <main id="main-content" className={`home-v2 ${styles.page}`}>
       <section className={styles.hero}>
-        <img className={styles.heroImage} src={experience.image} alt="" />
+        {/*
+          The hero deliberately uses experience.image:
+          the exact same cover image used by the matching sector card.
+        */}
+        <div
+          className={styles.heroImage}
+          style={{ backgroundImage: `url("${experience.image}")` }}
+          aria-hidden="true"
+        />
+
         <div className={styles.heroOverlay} aria-hidden="true" />
-        <div className={styles.heroGrid} aria-hidden="true" />
 
         <div className={`container ${styles.heroInner}`}>
-          <div className={styles.breadcrumb}>
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <Link href="/sectors">Sectors</Link>
-            <span>/</span>
-            <span>{experience.displayTitle}</span>
+          <div className={styles.heroTop}>
+            <Link href="/sectors" className={styles.backLink}>
+              <ArrowLeft size={15} />
+              All sectors
+            </Link>
+
+            <span className={styles.heroTag}>Sector pathway</span>
           </div>
 
           <div className={styles.heroLayout}>
             <div className={styles.heroCopy}>
-              <p className={styles.kicker}>Sector pathway</p>
+              <p className={styles.kicker}>
+                {experience.displayTitle}
+                <span>{experience.displaySubtitle}</span>
+              </p>
+
               <h1>{sector.name}</h1>
             </div>
 
             <div className={styles.heroAside}>
               <p>{sector.summary || experience.audience}</p>
 
-              <div className={styles.heroActions}>
-                <Link href={consultationHref}>
-                  Discuss this sector
-                  <ArrowUpRight size={16} />
-                </Link>
-
-                <Link href="/sectors" className={styles.secondaryAction}>
-                  <ArrowLeft size={15} />
-                  All sectors
-                </Link>
-              </div>
+              <Link
+                href={consultationHref}
+                className={styles.heroCta}
+              >
+                Discuss this sector
+                <ArrowUpRight size={16} />
+              </Link>
             </div>
           </div>
         </div>
@@ -354,22 +482,19 @@ export default async function SectorDetailPage({
       </div>
 
       <section className={styles.reality}>
-        <div className={`container ${styles.realityGrid}`}>
-          <div className={styles.sectionMarker}>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={styles.sectionKicker}>
             <span>01</span>
             <p>Sector reality</p>
           </div>
 
-          <div className={styles.realityCopy}>
-            <p className={styles.displayLabel}>
-              {experience.displayTitle}
-              <span>{experience.displaySubtitle}</span>
-            </p>
+          <div className={styles.sectionHeading}>
+            <h2>
+              Solutions shaped around how this environment actually operates.
+            </h2>
 
-            <h2>Solutions shaped around how this environment actually operates.</h2>
-
-            <div className={styles.realityText}>
-              <p>{experience.audience}</p>
+            <div className={styles.sectionCopy}>
+              <p className={styles.audience}>{experience.audience}</p>
               <p>{experience.narrative}</p>
               <p>{experience.value}</p>
             </div>
@@ -378,27 +503,30 @@ export default async function SectorDetailPage({
       </section>
 
       <section className={styles.priorities}>
-        <div className={`container ${styles.prioritiesInner}`}>
-          <header className={styles.sectionHeaderDark}>
-            <div className={styles.sectionMarkerLight}>
-              <span>02</span>
-              <p>Operational priorities</p>
-            </div>
+        <div className={`container ${styles.sectionShell}`}>
+          <div
+            className={`${styles.sectionKicker} ${styles.sectionKickerLight}`}
+          >
+            <span>02</span>
+            <p>Operational priorities</p>
+          </div>
 
-            <div>
-              <h2>Where BRAINTEK can create practical value.</h2>
-              <p>
-                The exact scope is shaped during discovery. These are the priority areas most
-                relevant to this sector.
-              </p>
-            </div>
-          </header>
+          <div
+            className={`${styles.sectionHeading} ${styles.sectionHeadingDark}`}
+          >
+            <h2>Where BRAINTEK can create practical value.</h2>
+
+            <p>
+              The exact scope is shaped during discovery. These are the
+              priority areas most relevant to this sector.
+            </p>
+          </div>
 
           <div className={styles.priorityGrid}>
             {experience.priorities.map((priority, index) => (
               <article key={priority}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                <Check size={16} />
+                <Check size={15} aria-hidden="true" />
                 <h3>{priority}</h3>
               </article>
             ))}
@@ -407,41 +535,43 @@ export default async function SectorDetailPage({
       </section>
 
       <section className={styles.capabilities}>
-        <div className={`container ${styles.capabilityLayout}`}>
-          <aside className={styles.capabilityIntro}>
-            <div className={styles.sectionMarker}>
-              <span>03</span>
-              <p>Relevant capabilities</p>
-            </div>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={styles.sectionKicker}>
+            <span>03</span>
+            <p>Relevant capabilities</p>
+          </div>
 
+          <div className={styles.sectionHeading}>
             <h2>Cross-functional support from security to capability.</h2>
-            <p>
-              Services are selected around the sector context rather than presented as disconnected
-              offers.
-            </p>
 
-            <Link href="/services">
-              Explore all services
-              <ArrowUpRight size={16} />
-            </Link>
-          </aside>
+            <div className={styles.headingAside}>
+              <p>
+                Services are selected around the sector context rather
+                than presented as disconnected offers.
+              </p>
 
-          <div className={styles.serviceList}>
+              <Link href="/services">
+                Explore all services
+                <ArrowUpRight size={15} />
+              </Link>
+            </div>
+          </div>
+
+          <div className={styles.serviceGrid}>
             {relatedServices.map((service, index) => (
               <Link
                 href={`/services/${service.slug}`}
-                className={styles.serviceRow}
+                className={styles.serviceCard}
                 key={service.slug}
               >
-                <span>{String(index + 1).padStart(2, '0')}</span>
-
-                <div>
-                  <p>{service.pillar || 'BRAINTEK capability'}</p>
-                  <h3>{service.name}</h3>
-                  <small>{service.summary}</small>
+                <div className={styles.serviceTop}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <ArrowUpRight size={16} />
                 </div>
 
-                <ArrowUpRight size={18} />
+                <p>{service.pillar || 'BRAINTEK capability'}</p>
+                <h3>{service.name}</h3>
+                <small>{service.summary}</small>
               </Link>
             ))}
           </div>
@@ -450,21 +580,21 @@ export default async function SectorDetailPage({
 
       {relatedProducts.length ? (
         <section className={styles.platforms}>
-          <div className={`container ${styles.platformsInner}`}>
-            <header className={styles.platformHeader}>
-              <div className={styles.sectionMarker}>
-                <span>04</span>
-                <p>Connected platforms</p>
-              </div>
+          <div className={`container ${styles.sectionShell}`}>
+            <div className={styles.sectionKicker}>
+              <span>04</span>
+              <p>Connected platforms</p>
+            </div>
 
-              <div>
-                <h2>Platforms that can reinforce the sector pathway.</h2>
-                <p>
-                  Product relevance depends on the operating need. These platforms align most
-                  closely with this sector&apos;s current pathway.
-                </p>
-              </div>
-            </header>
+            <div className={styles.sectionHeading}>
+              <h2>Platforms that can reinforce the sector pathway.</h2>
+
+              <p>
+                Product relevance depends on the operating need. These
+                platforms align most closely with this sector&apos;s current
+                pathway.
+              </p>
+            </div>
 
             <div className={styles.platformGrid}>
               {relatedProducts.map((product, index) => {
@@ -476,30 +606,42 @@ export default async function SectorDetailPage({
                     className={styles.platformCard}
                     key={product.slug}
                   >
-                    <div className={styles.platformMedia}>
+                    <div className={styles.platformHead}>
+                      <span>{String(index + 1).padStart(2, '0')}</span>
+
+                      <p>
+                        {product.category || 'BRAINTEK platform'}
+                      </p>
+                    </div>
+
+                    <h3>{displayProductName(product)}</h3>
+
+                    <div className={styles.platformVisual}>
                       {image ? (
-                        <img src={image} alt="" loading="lazy" />
+                        <img
+                          src={image}
+                          alt=""
+                          loading="lazy"
+                        />
                       ) : (
-                        <div className={styles.platformFallback} aria-hidden="true">
+                        <div
+                          className={styles.platformFallback}
+                          aria-hidden="true"
+                        >
                           <span />
                           <span />
                           <span />
                         </div>
                       )}
-                      <div className={styles.platformOverlay} aria-hidden="true" />
-                      <span className={styles.platformNumber}>
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
                     </div>
 
-                    <div className={styles.platformCopy}>
-                      <p>{product.category || 'BRAINTEK platform'}</p>
-                      <h3>{product.name}</h3>
-                      <span>{product.summary}</span>
-                      <small>
+                    <div className={styles.platformFooter}>
+                      <p>{product.summary}</p>
+
+                      <strong>
                         Explore platform
                         <ArrowUpRight size={15} />
-                      </small>
+                      </strong>
                     </div>
                   </Link>
                 );
@@ -510,54 +652,50 @@ export default async function SectorDetailPage({
       ) : null}
 
       <section className={styles.model}>
-        <div className={`container ${styles.modelInner}`}>
-          <header>
-            <div className={styles.sectionMarkerLight}>
-              <span>05</span>
-              <p>Engagement model</p>
-            </div>
+        <div className={`container ${styles.sectionShell}`}>
+          <div
+            className={`${styles.sectionKicker} ${styles.sectionKickerLight}`}
+          >
+            <span>05</span>
+            <p>Engagement model</p>
+          </div>
 
+          <div
+            className={`${styles.sectionHeading} ${styles.sectionHeadingDark}`}
+          >
             <h2>One disciplined path from context to improvement.</h2>
-          </header>
+
+            <p>
+              Diagnose the operating reality, strengthen protection,
+              shape the right solution, implement it, enable the people
+              around it and evaluate progress.
+            </p>
+          </div>
 
           <div className={styles.modelSteps}>
-            {['Diagnose', 'Secure', 'Design', 'Implement', 'Enable', 'Evaluate'].map(
-              (step, index) => (
-                <article key={step}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <i aria-hidden="true" />
-                  <h3>{step}</h3>
-                </article>
-              ),
-            )}
+            {[
+              'Diagnose',
+              'Secure',
+              'Design',
+              'Implement',
+              'Enable',
+              'Evaluate',
+            ].map((step, index) => (
+              <article key={step}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <i aria-hidden="true" />
+                <h3>{step}</h3>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className={styles.finalCta}>
-        <div className={styles.finalGrid} aria-hidden="true" />
-
-        <div className={`container ${styles.finalInner}`}>
-          <div>
-            <p>Next step</p>
-            <h2>Build the right solution for {experience.displayTitle.toLowerCase()}.</h2>
-          </div>
-
-          <div className={styles.finalAside}>
-            <p>
-              Move from isolated initiatives to a coordinated pathway that fits the environment,
-              operating realities and performance priorities.
-            </p>
-
-            <Link href={consultationHref}>
-              Request a Strategic Consultation
-              <span>
-                <ChevronRight size={16} />
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/*
+        Same fixed / curtain CTA used on the Home page.
+        The old electric-blue sector CTA is intentionally removed.
+      */}
+      <HomeFinalCTA />
     </main>
   );
 }

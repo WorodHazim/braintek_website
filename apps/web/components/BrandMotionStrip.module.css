@@ -8,13 +8,13 @@
   overflow: hidden;
   color: #fff;
   background:
-    linear-gradient(90deg, rgba(14,165,164,.14), transparent 24%, transparent 76%, rgba(14,165,164,.10)),
-    #1d4ed8;
-  border-top: 1px solid rgba(255,255,255,.11);
-  border-bottom: 1px solid rgba(7,25,55,.18);
+    linear-gradient(90deg, rgba(126, 234, 226, .10), transparent 24%, transparent 76%, rgba(126, 234, 226, .08)),
+    #0b7c7a;
+  border-top: 1px solid rgba(255,255,255,.12);
+  border-bottom: 1px solid rgba(4,71,73,.26);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.055),
-    0 10px 28px rgba(11,31,58,.055);
+    0 10px 28px rgba(11,31,58,.045);
 }
 
 .strip::before,
@@ -30,12 +30,12 @@
 
 .strip::before {
   left: 0;
-  background: linear-gradient(90deg, #1d4ed8, transparent);
+  background: linear-gradient(90deg, #0b7c7a, transparent);
 }
 
 .strip::after {
   right: 0;
-  background: linear-gradient(270deg, #1d4ed8, transparent);
+  background: linear-gradient(270deg, #0b7c7a, transparent);
 }
 
 .track {
@@ -65,7 +65,7 @@
 }
 
 .item b {
-  color: rgba(255,255,255,.91);
+  color: rgba(255,255,255,.93);
   font-size: 10px;
   font-weight: 720;
   letter-spacing: .125em;
@@ -76,7 +76,7 @@
   width: 28px;
   height: 1px;
   display: block;
-  background: rgba(150,240,234,.82);
+  background: rgba(191, 246, 241, .84);
   transform-origin: center;
   transition: width .3s ease, opacity .3s ease;
 }

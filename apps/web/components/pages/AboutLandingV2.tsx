@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowUpRight, ChevronRight } from 'lucide-react';
 import { CeoPortrait } from './CeoPortrait';
+import { HomeFinalCTA } from '@/components/HomeFinalCTA';
 import styles from './AboutLandingV2.module.css';
 
 type AboutLandingV2Props = {
@@ -28,7 +29,7 @@ export function AboutLandingV2({
       <section className={styles.hero}>
         <img
           className={styles.heroImage}
-          src="/services/services-hero.jpg"
+          src="/pages/heroes/about.jpg"
           alt=""
           aria-hidden="true"
         />
@@ -62,26 +63,13 @@ export function AboutLandingV2({
         </div>
       </section>
 
-      <div className={styles.motionStrip} aria-hidden="true">
-        <div>
-          <span>Security</span><i />
-          <span>Systems</span><i />
-          <span>AI</span><i />
-          <span>Automation</span><i />
-          <span>Human capability</span><i />
-          <span>Institutional performance</span><i />
-          <span>Security</span><i />
-          <span>Systems</span><i />
-          <span>Human capability</span>
-        </div>
-      </div>
-
       <section className={styles.who}>
         <div className={`container ${styles.whoGrid}`}>
-          <p className={styles.sectionKicker}>Who we are</p>
-
-          <div className={styles.whoHeadline}>
-            <h2>One institutional model for protection, performance and people.</h2>
+          <div className={styles.whoLead}>
+            <p className={styles.sectionKicker}>Who we are</p>
+            <div className={styles.whoHeadline}>
+              <h2>One institutional model for protection, performance and human capability.</h2>
+            </div>
           </div>
 
           <div className={styles.whoCopy}>
@@ -99,52 +87,181 @@ export function AboutLandingV2({
         </div>
       </section>
 
+
+      <section id="why-braintek" className={styles.why}>
+        <div className={`container ${styles.whyGrid}`}>
+          <div className={styles.whyLead}>
+            <p className={styles.sectionKicker}>Why BRAINTEK</p>
+            <h2>Connected by design. Practical in delivery.</h2>
+            <p>
+              BRAINTEK brings security, systems and human capability together
+              so institutions do not have to manage protection, technology and
+              development as separate initiatives.
+            </p>
+          </div>
+
+          <div className={styles.whyReasons}>
+            <article>
+              <span>01</span>
+              <div>
+                <h3>Connected</h3>
+                <p>
+                  One operating model across digital protection, intelligent
+                  systems and workforce capability.
+                </p>
+              </div>
+            </article>
+
+            <article>
+              <span>02</span>
+              <div>
+                <h3>Practical</h3>
+                <p>
+                  Solutions are shaped around real workflows, roles,
+                  constraints and measurable institutional outcomes.
+                </p>
+              </div>
+            </article>
+
+            <article>
+              <span>03</span>
+              <div>
+                <h3>Sustainable</h3>
+                <p>
+                  Delivery is designed for adoption, operational relevance and
+                  long-term value rather than isolated interventions.
+                </p>
+              </div>
+            </article>
+
+            <p className={styles.whyStatement}>
+              <strong>The advantage is the connection.</strong>
+              One coordinated model instead of separate protection, systems and
+              training initiatives.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.pillars}>
         <div className={`container ${styles.pillarHeader}`}>
-          <p className={styles.kicker}>Our business architecture</p>
-          <div>
+          <p className={styles.sectionKicker}>Our business architecture</p>
+
+          <div className={styles.pillarHeadingMain}>
             <h2>Protect. Build. Empower.</h2>
-            <p>Three commercial pillars designed to operate as one transformation model.</p>
+            <p>
+              Three connected capabilities designed to operate as one
+              institutional transformation model.
+            </p>
           </div>
         </div>
 
-        <div className={styles.pillarGrid}>
-          <article>
-            <span>01</span>
-            <p>Protect</p>
-            <h3>Cybersecurity & Digital Protection</h3>
-            <small>Secure digital environments through stronger protection, monitoring, compliance readiness and resilience.</small>
-          </article>
-          <article>
-            <span>02</span>
-            <p>Build</p>
-            <h3>Software Solutions & Systems Development</h3>
-            <small>Create customized systems, workflow automation, AI-enabled applications and connected institutional platforms.</small>
-          </article>
-          <article>
-            <span>03</span>
-            <p>Empower</p>
-            <h3>Manpower Development & Workforce Empowerment</h3>
-            <small>Advance leadership readiness, psychometric-informed development, AI fluency and role-relevant capability.</small>
-          </article>
+        <div className={`container ${styles.pillarGrid}`}>
+          <Link href="/services" className={styles.pillarCard}>
+            <div className={styles.pillarCardHead}>
+              <strong>Protect</strong>
+              <span>01</span>
+            </div>
+            <div className={styles.pillarMedia}>
+              <img src="/home/pillars/pillar-protect.jpg" alt="" />
+              <i aria-hidden="true" />
+            </div>
+            <div className={styles.pillarBody}>
+              <h3>Cybersecurity &amp; Digital Protection</h3>
+              <p>
+                Secure digital environments through stronger protection,
+                monitoring, compliance readiness and resilience.
+              </p>
+              <span>Explore capability <ArrowUpRight size={15} /></span>
+            </div>
+          </Link>
+
+          <Link href="/services" className={styles.pillarCard}>
+            <div className={styles.pillarCardHead}>
+              <strong>Build</strong>
+              <span>02</span>
+            </div>
+            <div className={styles.pillarMedia}>
+              <img src="/home/pillars/pillar-build.jpg" alt="" />
+              <i aria-hidden="true" />
+            </div>
+            <div className={styles.pillarBody}>
+              <h3>Software Solutions &amp; Systems Development</h3>
+              <p>
+                Create customized systems, workflow automation, AI-enabled
+                applications and connected institutional platforms.
+              </p>
+              <span>Explore capability <ArrowUpRight size={15} /></span>
+            </div>
+          </Link>
+
+          <Link href="/services" className={styles.pillarCard}>
+            <div className={styles.pillarCardHead}>
+              <strong>Empower</strong>
+              <span>03</span>
+            </div>
+            <div className={styles.pillarMedia}>
+              <img src="/home/pillars/pillar-empower.jpg" alt="" />
+              <i aria-hidden="true" />
+            </div>
+            <div className={styles.pillarBody}>
+              <h3>Manpower Development &amp; Workforce Empowerment</h3>
+              <p>
+                Advance leadership readiness, psychometric-informed
+                development, AI fluency and role-relevant capability.
+              </p>
+              <span>Explore capability <ArrowUpRight size={15} /></span>
+            </div>
+          </Link>
         </div>
       </section>
 
       <section className={styles.direction}>
-        <div className={`container ${styles.directionGrid}`}>
-          <div>
-            <p className={styles.sectionKicker}>Vision</p>
-            <h2>A trusted leader in secure, intelligent, human-centered institutional transformation.</h2>
+        <div className={`container ${styles.directionInner}`}>
+          <div className={styles.directionHeader}>
+            <div>
+              <p className={styles.sectionKicker}>Our direction</p>
+              <h2>Clear direction. Connected progress.</h2>
+            </div>
+
+            <p className={styles.directionIntro}>
+              BRAINTEK connects secure foundations, intelligent systems and
+              human capability through one institutional direction.
+            </p>
           </div>
 
           <div className={styles.directionStatements}>
             <article>
-              <p>Mission</p>
-              <h3>Protect what matters. Modernize how institutions operate. Strengthen the people who drive performance.</h3>
+              <div className={styles.directionMeta}>
+                <span>01</span>
+                <p>Vision</p>
+              </div>
+              <h3>
+                A trusted leader in secure, intelligent and human-centered
+                institutional transformation.
+              </h3>
             </article>
+
             <article>
-              <p>Perspective</p>
-              <h3>Institutional progress is strongest when secure foundations, intelligent systems and empowered people move together.</h3>
+              <div className={styles.directionMeta}>
+                <span>02</span>
+                <p>Mission</p>
+              </div>
+              <h3>
+                Protect what matters. Modernize how institutions operate.
+                Strengthen the people who drive performance.
+              </h3>
+            </article>
+
+            <article>
+              <div className={styles.directionMeta}>
+                <span>03</span>
+                <p>Perspective</p>
+              </div>
+              <h3>
+                Institutional progress is strongest when secure foundations,
+                intelligent systems and empowered people move together.
+              </h3>
             </article>
           </div>
         </div>
@@ -188,40 +305,38 @@ export function AboutLandingV2({
       </section>
 
       <section className={styles.values}>
-        <div className={`container ${styles.valuesInner}`}>
-          <div className={styles.valuesHeader}>
+        <div className={`container ${styles.valuesLayout}`}>
+          <aside className={styles.valuesSide}>
             <p className={styles.sectionKicker}>Values</p>
-            <h2>Principles that shape how BRAINTEK thinks, builds and delivers.</h2>
-          </div>
+            <h2>Principles that guide our work.</h2>
+            <p>
+              Security, intelligence, responsibility and human capability shape
+              how BRAINTEK approaches institutional challenges, delivery and
+              long-term value.
+            </p>
+          </aside>
 
           <div className={styles.valuesGrid}>
             {values.map(([number, title, text]) => (
-              <article key={title}>
-                <span>{number}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
+              <article className={styles.valueCard} key={title}>
+                <div className={styles.valueTop}>
+                  <span>{number}</span>
+                  <i aria-hidden="true" />
+                </div>
+
+                <div className={styles.valueBody}>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+
+                <b aria-hidden="true">{number}</b>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className={styles.cta}>
-        <div className={styles.ctaGrid} aria-hidden="true" />
-        <div className={`container ${styles.ctaInner}`}>
-          <div>
-            <p>Next step</p>
-            <h2>Protect the environment. Modernize the operation. Strengthen the people who sustain it.</h2>
-          </div>
-          <div>
-            <p>Talk to BRAINTEK about an integrated institutional transformation pathway.</p>
-            <Link href="/contact">
-              Request a Strategic Consultation
-              <ArrowUpRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HomeFinalCTA />
     </div>
   );
 }

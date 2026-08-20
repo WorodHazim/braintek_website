@@ -25,7 +25,7 @@ export function AdminLogin() {
   return <div className={styles.viewport} data-braintek-admin-root>
     <div className={styles.grid} />
     <section className={styles.copy}>
-      <img src="/brand/logo-primary.png" alt="BrainTek" />
+      <img src="/brand/braintek-logo.png" alt="BrainTek" />
       <p>Secure operational access</p>
       <h1>Manage the work behind the website.</h1>
       <span>Inquiries, follow-ups, status history and content oversight in one BRAINTEK workspace.</span>

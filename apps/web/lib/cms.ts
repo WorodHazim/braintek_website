@@ -22,8 +22,20 @@ export type FormConfiguration = {
 };
 function optionize(input: unknown, fallback: string[]): FormOption[] {
   const source = Array.isArray(input) && input.length ? input : fallback;
-  return source.map((item:any) => {
-    if (item && typeof item === 'object' && typeof item.label === 'string') return { label:item.label, value:String(item.value || item.label) };
+  return source.map((item: unknown) => {
+    if (item && typeof item === 'object') {
+      const candidate = item as {
+        label?: unknown;
+        value?: unknown;
+      };
+
+      if (typeof candidate.label === 'string') {
+        return {
+          label: candidate.label,
+          value: String(candidate.value || candidate.label),
+        };
+      }
+    }
     const label=String(item);
     const value=label.toLowerCase().replace(/\s*\/\s*/g,'-').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
     return { label, value };
@@ -44,6 +56,28 @@ export type CmsPage = {
 };
 
 type StrapiList<T> = { data: T[] };
+type CmsMedia = {
+    url?: string;
+  };
+
+  type CmsProductRecord = Product & {
+    maturity_status?: string;
+    screenshots?: CmsMedia[];
+  };
+
+  type CmsResourceRecord = Resource & {
+    sectors?: Array<{ name?: string }>;
+    cover?: CmsMedia;
+  };
+
+  type CmsTeamRecord = TeamMember & {
+    portrait?: CmsMedia;
+  };
+
+  type CmsPartnerRecord = Partner & {
+    partnership_type?: string;
+    logo?: CmsMedia;
+  };
 async function draftStatus() {
   try { return (await draftMode()).isEnabled ? 'draft' : undefined; } catch { return undefined; }
 }
@@ -73,15 +107,17 @@ export const cms = {
     } catch { return fallback; }
   },
   async services(): Promise<Service[]> {
-    const data = await fetchList<any>('services', services, 'name');
-    return data.map((item:any) => {
+    const data = await fetchList<Service>('services', services, 'name');
+
+    return data.map((item) => {
       const fallback = services.find(x=>x.slug===item.slug);
       return { ...item, bullets: Array.isArray(item.bullets) ? item.bullets : (fallback?.bullets || []), pillar: item.pillar || fallback?.pillar || '', summary: item.summary || fallback?.summary || '' };
     });
   },
   async sectors(): Promise<Sector[]> {
-    const data = await fetchList<any>('sectors', sectors, 'name');
-    return data.map((item:any) => {
+    const data = await fetchList<Sector>('sectors', sectors, 'name');
+
+    return data.map((item) => {
       const fallback = sectors.find(x=>x.slug===item.slug);
       return { ...item, priorities: Array.isArray(item.priorities) ? item.priorities : (fallback?.priorities || []), summary: item.summary || fallback?.summary || '' };
     });
@@ -93,7 +129,9 @@ export const cms = {
       const response=await fetch(`${CMS_URL}/api/products?${qs.toString()}`, { headers, ...(status?{cache:'no-store' as const}:{next:{revalidate:60}}) });
       const data=response.ok?(await response.json())?.data:null;
       if(!Array.isArray(data)||!data.length) return products;
-      return data.map((item:any)=>{const fallback=products.find(x=>x.slug===item.slug);return { ...item, status:item.status||item.maturity_status||undefined, merits:Array.isArray(item.merits)?item.merits:(fallback?.merits||[]), audience:item.audience||fallback?.audience||'', screenshotUrls:Array.isArray(item.screenshots)?item.screenshots.map((m:any)=>mediaUrl(m?.url)).filter(Boolean):[] };});
+      return data.map((item: CmsProductRecord) => {const fallback=products.find(x=>x.slug===item.slug);return { ...item, status:item.status||item.maturity_status||undefined, merits:Array.isArray(item.merits)?item.merits:(fallback?.merits||[]), audience:item.audience||fallback?.audience||'', screenshotUrls:Array.isArray(item.screenshots)?item.screenshots
+        .map((m: CmsMedia) => mediaUrl(m?.url))
+        .filter((url): url is string => Boolean(url)):[] };});
     } catch { return products; }
   },
   async resources(): Promise<Resource[]> {
@@ -104,7 +142,9 @@ export const cms = {
       if(!response.ok) return resources;
       const data=(await response.json())?.data;
       if(!Array.isArray(data)||!data.length) return resources;
-      return data.map((item:any)=>({ ...resources.find(x=>x.slug===item.slug), ...item, sectorNames:Array.isArray(item.sectors)?item.sectors.map((s:any)=>s?.name).filter(Boolean):[], coverUrl:mediaUrl(item.cover?.url) }));
+      return data.map((item: CmsResourceRecord) => ({ ...resources.find(x=>x.slug===item.slug), ...item, sectorNames:Array.isArray(item.sectors)?item.sectors
+  .map((s: { name?: string }) => s?.name)
+  .filter((name): name is string => Boolean(name)):[], coverUrl:mediaUrl(item.cover?.url) }));
     } catch { return resources; }
   },
   async team(): Promise<TeamMember[]> {
@@ -114,7 +154,7 @@ export const cms = {
       const response=await fetch(`${CMS_URL}/api/team-members?${qs.toString()}`, { headers, ...(status?{cache:'no-store' as const}:{next:{revalidate:60}}) });
       const data=response.ok?(await response.json())?.data:null;
       if(!Array.isArray(data)||!data.length) return team;
-      return data.map((item:any)=>{const fallback=team.find(x=>x.name===item.name);return { ...fallback, ...item, initials:item.initials||fallback?.initials||'', contribution:item.contribution||fallback?.contribution||'', relevance:item.relevance||fallback?.relevance||'', portraitUrl:mediaUrl(item.portrait?.url) } as TeamMember;});
+      return data.map((item: CmsTeamRecord) => {const fallback=team.find(x=>x.name===item.name);return { ...fallback, ...item, initials:item.initials||fallback?.initials||'', contribution:item.contribution||fallback?.contribution||'', relevance:item.relevance||fallback?.relevance||'', portraitUrl:mediaUrl(item.portrait?.url) } as TeamMember;});
     } catch { return team; }
   },
   async formConfiguration(): Promise<FormConfiguration> {
@@ -148,7 +188,7 @@ export const cms = {
       const response=await fetch(`${CMS_URL}/api/partners?${qs.toString()}`, { headers, ...(status?{cache:'no-store' as const}:{next:{revalidate:60}}) });
       const data=response.ok?(await response.json())?.data:null;
       if(!Array.isArray(data)||!data.length) return partners;
-      return data.map((item:any)=>({ ...item, type:item.type||item.partnership_type||'', description:item.description||partners.find(x=>x.name===item.name)?.description||'', logoUrl:mediaUrl(item.logo?.url) }));
+      return data.map((item: CmsPartnerRecord) => ({ ...item, type:item.type||item.partnership_type||'', description:item.description||partners.find(x=>x.name===item.name)?.description||'', logoUrl:mediaUrl(item.logo?.url) }));
     } catch { return partners; }
   }
 };

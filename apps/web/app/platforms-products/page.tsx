@@ -1,19 +1,16 @@
 import type { Metadata } from 'next';
 import { cms } from '@/lib/cms';
-import { PlatformsLandingV2 } from '@/components/pages/PlatformsLandingV2';
+import { PlatformsUnifiedPage } from '@/components/pages/PlatformsUnifiedPage';
 
 export const metadata: Metadata = {
-  title: 'Platforms & Products | BRAINTEK',
+  title: 'Platforms & Products',
   description:
-    'Explore BRAINTEK platforms for assessment, leadership readiness, academic operations, workflow automation, student services and digital protection.',
+    'Explore BRAINTEK platforms for assessment, institutional operations, workflow automation and digital protection.',
+  alternates: { canonical: '/platforms-products' },
 };
 
 export default async function PlatformsProductsPage() {
   const products = await cms.products();
 
-  return (
-    <main id="main-content">
-      <PlatformsLandingV2 products={products} />
-    </main>
-  );
+  return <PlatformsUnifiedPage products={products} />;
 }

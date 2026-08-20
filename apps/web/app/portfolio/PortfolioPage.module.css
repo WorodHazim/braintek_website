@@ -1,0 +1,244 @@
+.page {
+  background: #f4f7f9;
+  color: #0a2036;
+}
+
+.pageFrame {
+  width: min(calc(100% - 96px), 1440px);
+  margin-inline: auto;
+}
+
+.workSection {
+  padding: clamp(96px, 8vw, 132px) 0 clamp(108px, 9vw, 150px);
+  background: #f4f7f9;
+}
+
+.kicker {
+  margin: 0;
+  color: #0b7c7a;
+  font-size: 9px;
+  font-weight: 780;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.sectionHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, .72fr);
+  gap: clamp(46px, 7vw, 110px);
+  align-items: end;
+  margin-top: 18px;
+}
+
+.sectionHeading h2 {
+  max-width: 780px;
+  margin: 0;
+  font-family: var(--font-display), Manrope, sans-serif;
+  font-size: clamp(48px, 4.9vw, 72px);
+  font-weight: 500;
+  line-height: .95;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+}
+
+.sectionHeading > p {
+  max-width: 570px;
+  margin: 0 0 5px;
+  color: #647b8d;
+  font-size: 13px;
+  line-height: 1.74;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 56px;
+}
+
+.card {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: minmax(320px, 34vw) auto;
+  overflow: hidden;
+  border: 1px solid rgba(16,42,67,.11);
+  background: #fff;
+  color: #102a43;
+  transition:
+    transform .34s cubic-bezier(.22,1,.36,1),
+    box-shadow .34s ease,
+    border-color .34s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(11,124,122,.24);
+  box-shadow: 0 20px 54px rgba(8,31,50,.08);
+}
+
+.media {
+  overflow: hidden;
+  background: #e8eef1;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(.82);
+  transition: transform .65s cubic-bezier(.22,1,.36,1);
+}
+
+.card:hover .media img {
+  transform: scale(1.035);
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 26px;
+  background:
+    linear-gradient(135deg, rgba(14,165,164,.12), transparent 48%),
+    #071a2d;
+  color: #fff;
+}
+
+.placeholder span {
+  color: #82ddd7;
+  font-size: 9px;
+  letter-spacing: .12em;
+}
+
+.placeholder strong {
+  font-size: 12px;
+  letter-spacing: .13em;
+}
+
+.cardCopy {
+  min-height: 290px;
+  display: flex;
+  flex-direction: column;
+  padding: 26px;
+}
+
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cardMeta small,
+.cardMeta span {
+  color: #7b8794;
+  font-size: 8px;
+  font-weight: 740;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.cardMeta small {
+  color: #0b7c7a;
+}
+
+.cardCopy h3 {
+  max-width: 600px;
+  margin: 36px 0 0;
+  font-family: var(--font-display), Manrope, sans-serif;
+  font-size: clamp(28px, 2.8vw, 42px);
+  font-weight: 520;
+  line-height: 1.01;
+  letter-spacing: -.045em;
+}
+
+.cardCopy p {
+  max-width: 600px;
+  margin: 14px 0 0;
+  color: #607788;
+  font-size: 11.5px;
+  line-height: 1.66;
+}
+
+.cardCopy > strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 28px;
+  color: #0b7c7a;
+  font-size: 9.5px;
+}
+
+.empty {
+  display: grid;
+  grid-template-columns: .38fr 1.62fr;
+  gap: clamp(42px, 7vw, 105px);
+  margin-top: 56px;
+  padding: clamp(42px, 5vw, 68px);
+  border: 1px solid rgba(16,42,67,.11);
+  background: rgba(255,255,255,.56);
+}
+
+.empty > span {
+  color: #0b7c7a;
+  font-size: 9px;
+  font-weight: 780;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.empty h3 {
+  max-width: 760px;
+  margin: 0;
+  font-family: var(--font-display), Manrope, sans-serif;
+  font-size: clamp(40px, 4.2vw, 64px);
+  font-weight: 520;
+  line-height: .96;
+  letter-spacing: -.052em;
+}
+
+.empty p {
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: #61788a;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.empty a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  color: #0b7c7a;
+  font-size: 10px;
+  font-weight: 760;
+}
+
+@media (max-width: 880px) {
+  .sectionHeading,
+  .empty {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .pageFrame {
+    width: min(calc(100% - 32px), 1440px);
+  }
+
+  .workSection {
+    padding-block: 78px;
+  }
+
+  .sectionHeading h2 {
+    font-size: clamp(42px, 12vw, 56px);
+  }
+}

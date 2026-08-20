@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { cms } from '@/lib/cms';
+import { HomeFinalCTA } from '@/components/HomeFinalCTA';
 import styles from './InsightDetailPage.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -229,10 +230,19 @@ export default async function InsightDetailPage({
     .slice(0, 3);
 
   return (
-    <main id="main-content" className={styles.page}>
+    <main id="main-content" className={`home-v2 ${styles.page}`}>
       <section className={styles.hero}>
+        {/*
+          Keep the CURRENT insight cover as the hero background.
+          No new hero image mapping is introduced here.
+        */}
         {cover ? (
-          <img className={styles.heroImage} src={cover} alt="" />
+          <img
+            className={styles.heroImage}
+            src={cover}
+            alt=""
+            aria-hidden="true"
+          />
         ) : (
           <div className={styles.heroFallback} aria-hidden="true" />
         )}
@@ -240,22 +250,40 @@ export default async function InsightDetailPage({
         <div className={styles.heroOverlay} aria-hidden="true" />
 
         <div className={`container ${styles.heroInner}`}>
-          <Link href="/insights-resources" className={styles.back}>
-            <ArrowLeft size={15} />
-            Insights & Resources
-          </Link>
+          <div className={styles.heroTop}>
+            <Link href="/insights-resources" className={styles.back}>
+              <ArrowLeft size={15} />
+              Insights & Resources
+            </Link>
 
-          <div className={styles.meta}>
-            <span>{pretty(resource.category)}</span>
-            <i />
-            <span>{pretty(resource.format || 'Article')}</span>
+            <span className={styles.heroTag}>
+              {pretty(resource.format || 'Article')}
+            </span>
           </div>
 
-          <h1>{resource.title}</h1>
+          <div className={styles.heroLayout}>
+            <div className={styles.heroCopy}>
+              <div className={styles.meta}>
+                <span>{pretty(resource.category)}</span>
+                <i />
+                <span>BRAINTEK Perspective</span>
+              </div>
 
-          {resource.summary ? (
-            <p className={styles.summary}>{resource.summary}</p>
-          ) : null}
+              <h1>{resource.title}</h1>
+            </div>
+
+            <div className={styles.heroAside}>
+              <p>
+                {resource.summary ||
+                  'A practical BRAINTEK perspective on institutional transformation, systems, capability and applied technology.'}
+              </p>
+
+              <Link href="/contact" className={styles.heroCta}>
+                Discuss this perspective
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -266,91 +294,138 @@ export default async function InsightDetailPage({
           <span>Practical implementation</span><i />
           <span>Responsible progress</span><i />
           <span>Applied thinking</span><i />
-          <span>Institutional relevance</span>
+          <span>Institutional relevance</span><i />
+          <span>Practical implementation</span><i />
+          <span>Responsible progress</span>
         </div>
       </div>
 
       <section className={styles.article}>
-        <div className={`container ${styles.articleGrid}`}>
-          <aside>
+        <div className={`container ${styles.articleShell}`}>
+          <div className={styles.sectionKicker}>
+            <span>01</span>
             <p>Reading perspective</p>
-            <strong>{pretty(resource.category)}</strong>
-            <span>
-              BRAINTEK perspectives are written to support practical
-              institutional decisions and implementation.
-            </span>
-          </aside>
+          </div>
 
-          <article className={styles.content}>
-            {blocks.length ? (
-              blocks.map((block, index) => {
-                if (block.type === 'heading') {
-                  return block.level === 3 ? (
-                    <h3 key={index}>{block.text}</h3>
-                  ) : (
-                    <h2 key={index}>{block.text}</h2>
-                  );
-                }
+          <div className={styles.articleHeading}>
+            <div>
+              <p className={styles.categoryLabel}>
+                {pretty(resource.category)}
+              </p>
 
-                if (block.type === 'quote') {
-                  return <blockquote key={index}>{block.text}</blockquote>;
-                }
+              <h2>A practical perspective for institutional decision-making.</h2>
+            </div>
 
-                if (block.type === 'list') {
-                  return (
-                    <ul key={index}>
-                      {block.items?.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  );
-                }
+            <p>
+              BRAINTEK perspectives connect applied AI, automation,
+              cybersecurity, capability and governance to practical
+              institutional questions rather than abstract technology trends.
+            </p>
+          </div>
 
-                return <p key={index}>{block.text}</p>;
-              })
-            ) : (
-              <>
-                <h2>Overview</h2>
-                <p>
-                  {resource.summary ||
-                    'This resource examines a practical institutional transformation question.'}
-                </p>
-                <p>
-                  The full editorial body can be managed through the resource
-                  content field in Strapi. The landing page is already prepared
-                  to render headings, paragraphs, lists and quotations.
-                </p>
-              </>
-            )}
-          </article>
+          <div className={styles.articleGrid}>
+            <aside>
+              <span className={styles.asideNumber}>READ</span>
+
+              <strong>{pretty(resource.category)}</strong>
+
+              <p>
+                Use this perspective as a starting point for internal discussion,
+                readiness review and implementation planning.
+              </p>
+            </aside>
+
+            <article className={styles.content}>
+              {blocks.length ? (
+                blocks.map((block, index) => {
+                  if (block.type === 'heading') {
+                    return block.level === 3 ? (
+                      <h3 key={index}>{block.text}</h3>
+                    ) : (
+                      <h2 key={index}>{block.text}</h2>
+                    );
+                  }
+
+                  if (block.type === 'quote') {
+                    return <blockquote key={index}>{block.text}</blockquote>;
+                  }
+
+                  if (block.type === 'list') {
+                    return (
+                      <ul key={index}>
+                        {block.items?.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    );
+                  }
+
+                  return <p key={index}>{block.text}</p>;
+                })
+              ) : (
+                <>
+                  <h2>Overview</h2>
+
+                  <p>
+                    {resource.summary ||
+                      'This resource examines a practical institutional transformation question.'}
+                  </p>
+
+                  <p>
+                    The full editorial body can be managed through the resource
+                    content field in Strapi. This page is prepared to render
+                    headings, paragraphs, lists and quotations without changing
+                    the public-page layout.
+                  </p>
+                </>
+              )}
+            </article>
+          </div>
         </div>
       </section>
 
       {related.length ? (
         <section className={styles.related}>
           <div className={`container ${styles.relatedInner}`}>
-            <header>
+            <div className={styles.sectionKicker}>
+              <span>02</span>
               <p>Continue reading</p>
+            </div>
+
+            <header className={styles.relatedHeader}>
               <h2>Related insights & resources.</h2>
+
+              <p>
+                Continue exploring BRAINTEK perspectives that connect
+                technology, operating models, governance and human capability.
+              </p>
             </header>
 
             <div className={styles.relatedGrid}>
-              {related.map((item) => {
+              {related.map((item, index) => {
                 const relatedCover =
                   item.coverUrl || localCoverFor(item);
 
                 return (
-                  <a
+                  <Link
                     href={`/insights-resources/${encodeURIComponent(item.slug)}`}
                     className={styles.relatedCard}
                     key={item.slug}
                   >
                     <div className={styles.relatedMedia}>
                       {relatedCover ? (
-                        <img src={relatedCover} alt="" />
+                        <img
+                          src={relatedCover}
+                          alt=""
+                          loading="lazy"
+                        />
                       ) : (
                         <div />
                       )}
+
+                      <span className={styles.relatedIndex}>
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
                     </div>
 
                     <div className={styles.relatedCopy}>
@@ -358,13 +433,15 @@ export default async function InsightDetailPage({
                         {pretty(item.category)} /{' '}
                         {pretty(item.format || 'Article')}
                       </p>
+
                       <h3>{item.title}</h3>
+
                       <span>
                         Read insight
                         <ArrowUpRight size={15} />
                       </span>
                     </div>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -372,19 +449,11 @@ export default async function InsightDetailPage({
         </section>
       ) : null}
 
-      <section className={styles.cta}>
-        <div className={`container ${styles.ctaInner}`}>
-          <div>
-            <p>Turn insight into action</p>
-            <h2>Discuss how this perspective applies to your institution.</h2>
-          </div>
-
-          <Link href="/contact">
-            Book a Consultation
-            <ArrowUpRight size={16} />
-          </Link>
-        </div>
-      </section>
+      {/*
+        Remove the old electric-blue CTA.
+        Use the same fixed / curtain CTA already approved on Home.
+      */}
+      <HomeFinalCTA />
     </main>
   );
 }

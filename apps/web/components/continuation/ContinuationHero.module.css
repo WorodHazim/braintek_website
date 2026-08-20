@@ -18,7 +18,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: saturate(.72) contrast(1.02) brightness(.66);
+  filter: saturate(.82) contrast(1.02) brightness(.90);
   transform: scale(1.02);
 }
 
@@ -29,10 +29,10 @@
   background:
     linear-gradient(
       90deg,
-      rgba(2, 14, 27, .95) 0%,
-      rgba(3, 17, 31, .86) 34%,
-      rgba(4, 20, 35, .60) 66%,
-      rgba(3, 16, 29, .68) 100%
+      rgba(2, 14, 27, .91) 0%,
+      rgba(3, 17, 31, .80) 34%,
+      rgba(4, 20, 35, .52) 66%,
+      rgba(3, 16, 29, .66) 100%
     ),
     linear-gradient(
       180deg,
@@ -46,7 +46,7 @@
   position: absolute;
   z-index: -3;
   inset: 0;
-  opacity: .18;
+  opacity: .13;
   pointer-events: none;
   background-image:
     linear-gradient(rgba(126, 228, 221, .07) 1px, transparent 1px),

@@ -122,7 +122,7 @@ export function AboutExperience({ page, pillars }: { page: CmsPage; pillars: Pil
           ))}
         </div>
         <div className={`container ${styles.valuesLink}`} data-about-reveal>
-          <Link href="/why-braintek">Explore why BRAINTEK <ArrowUpRight size={15} /></Link>
+          <Link href="/about#why-braintek">Explore why BRAINTEK <ArrowUpRight size={15} /></Link>
         </div>
       </section>
 

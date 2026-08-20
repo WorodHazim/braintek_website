@@ -434,16 +434,17 @@
   gap: 14px;
   padding: 0 8px 0 20px;
   border: 0;
-  background: #1d4ed8;
+  background: #0b7c7a;
   color: #fff;
   font-size: 10px;
   font-weight: 760;
   cursor: pointer;
-  transition: transform .22s ease, opacity .22s ease;
+  transition: transform .22s ease, opacity .22s ease, background .22s ease;
 }
 
 .submitRow button:hover:not(:disabled) {
   transform: translateY(-2px);
+  background: #086a6c;
 }
 
 .submitRow button:disabled {
@@ -1074,5 +1075,100 @@
   .channel,
   .submitRow button {
     transition: none !important;
+  }
+}
+
+
+/* V28 — same section-heading system as Expert Team / Partners */
+
+.consultationIntro,
+.channelsIntro,
+.locationHeader,
+.expectHeader {
+  display: block;
+}
+
+.consultationIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, .72fr);
+  gap: clamp(46px, 7vw, 110px);
+  align-items: end;
+}
+
+.consultationIntro > div h2 {
+  max-width: 760px;
+  font-size: clamp(48px, 4.9vw, 72px);
+}
+
+.consultationIntro > p {
+  max-width: 570px;
+  margin: 0 0 5px;
+  font-size: 13px;
+}
+
+.channelsIntro,
+.locationHeader,
+.expectHeader {
+  margin-bottom: 0;
+}
+
+.sectionHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, .72fr);
+  gap: clamp(46px, 7vw, 110px);
+  align-items: end;
+  margin-top: 18px;
+}
+
+.sectionHeading h2 {
+  max-width: 760px;
+  margin: 0;
+  font-family: var(--font-display), Manrope, Arial, sans-serif;
+  font-size: clamp(48px, 4.9vw, 72px);
+  font-weight: 500;
+  line-height: .95;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+}
+
+.sectionHeading > p {
+  max-width: 570px;
+  margin: 0 0 5px;
+  color: #647b8d;
+  font-size: 13px;
+  line-height: 1.74;
+}
+
+.location .sectionHeading h2 {
+  color: #fff;
+}
+
+.location .sectionHeading > p {
+  color: rgba(207,228,237,.64);
+}
+
+.channels,
+.expect {
+  background: #fff;
+}
+
+.expect {
+  background: #f4f7f9;
+}
+
+/* The old local teal CTA is no longer rendered. HomeFinalCTA handles the
+   fixed curtain reveal exactly like the homepage. */
+
+@media (max-width: 900px) {
+  .consultationIntro,
+  .sectionHeading {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .sectionHeading h2,
+  .consultationIntro > div h2 {
+    font-size: clamp(42px, 12vw, 56px);
   }
 }

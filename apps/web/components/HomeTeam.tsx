@@ -10,14 +10,21 @@ type HomeTeamProps = {
 export function HomeTeam({ members }: HomeTeamProps) {
   return (
     <section className={styles.section} aria-labelledby="home-team-title">
-      <div className={`container ${styles.intro}`} data-reveal>
+      <div className={`container ${styles.heading}`} data-reveal>
         <p className={styles.kicker}>Expert team</p>
-        <div>
-          <h2 id="home-team-title">Strategic, technical and human-capability depth behind the work.</h2>
-          <p>
-            Expertise across leadership, software engineering, AI enablement, cybersecurity,
-            cloud, data protection and workforce development.
-          </p>
+
+        <div className={styles.headingMain}>
+          <div>
+            <h2 id="home-team-title">
+              Strategic, technical and human-capability depth behind the work.
+            </h2>
+
+            <p>
+              Expertise across leadership, software engineering, AI enablement,
+              cybersecurity, cloud, data protection and workforce development.
+            </p>
+          </div>
+
           <Link className={styles.link} href="/expert-team">
             Meet the expert team <ArrowUpRight size={16} />
           </Link>

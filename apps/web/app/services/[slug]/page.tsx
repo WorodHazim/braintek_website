@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { cms } from '@/lib/cms';
+import { HomeFinalCTA } from '@/components/HomeFinalCTA';
 import styles from './ServiceDetailPage.module.css';
 
 type SeoRecord = {
@@ -155,6 +156,58 @@ function classifyService(service: ServiceRecord): PillarKey {
   }
 
   return 'build';
+}
+
+
+function serviceHeroImage(service: ServiceRecord): string {
+  const name = service.name.toLowerCase();
+
+  if (name.includes('monitoring') || name.includes('compliance')) {
+    return '/services/heroes/cybersecurity-monitoring.jpg';
+  }
+
+  if (name.includes('penetration') || name.includes('vulnerability')) {
+    return '/services/heroes/penetration-testing.jpg';
+  }
+
+  if (name.includes('customized') || name.includes('platform development') || name.includes('system')) {
+    return '/services/heroes/custom-system-development.jpg';
+  }
+
+  if (name.includes('workflow') || name.includes('automation')) {
+    return '/services/heroes/workflow-automation.jpg';
+  }
+
+  if (name.includes('intelligent assistant') || name.includes('ai integration')) {
+    return '/services/heroes/ai-integration.jpg';
+  }
+
+  if (name.includes('consultancy') || name.includes('governance')) {
+    return '/services/heroes/ai-governance.jpg';
+  }
+
+  if (name.includes('psychometric') || name.includes('diagnosis')) {
+    return '/services/heroes/psychometric-assessment.jpg';
+  }
+
+  if (name.includes('leadership')) {
+    return '/services/heroes/ai-leadership.jpg';
+  }
+
+  if (name.includes('teacher') || name.includes('teaching')) {
+    return '/services/heroes/teacher-ai-learning.jpg';
+  }
+
+  if (name.includes('training') || name.includes('programme') || name.includes('program')) {
+    return '/services/heroes/training-capability.jpg';
+  }
+
+  const pillar = classifyService(service);
+
+  if (pillar === 'protect') return '/services/heroes/cybersecurity-monitoring.jpg';
+  if (pillar === 'empower') return '/services/heroes/training-capability.jpg';
+
+  return '/services/heroes/custom-system-development.jpg';
 }
 
 function fallbackCopy(service: ServiceRecord): PageCopy {
@@ -502,17 +555,22 @@ export default async function ServiceDetailPage({
     url: `/services/${service.slug}`,
   };
 
+  const heroImage = serviceHeroImage(service);
+
   return (
-    <main id="main-content" className={styles.page}>
+    <main id="main-content" className={`home-v2 ${styles.page}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
       />
 
       <section className={styles.hero}>
-        <div className={styles.heroGrid} aria-hidden="true" />
-        <div className={styles.heroGlow} aria-hidden="true" />
-        <div className={styles.heroArc} aria-hidden="true" />
+        <div
+          className={styles.heroImage}
+          style={{ backgroundImage: `url("${heroImage}")` }}
+          aria-hidden="true"
+        />
+        <div className={styles.heroOverlay} aria-hidden="true" />
 
         <div className={`container ${styles.heroInner}`}>
           <div className={styles.heroTop}>
@@ -532,6 +590,7 @@ export default async function ServiceDetailPage({
 
             <div className={styles.heroAside}>
               <p>{heroText}</p>
+
               <Link href={consultationHref} className={styles.heroCta}>
                 Discuss this service
                 <ArrowUpRight size={16} />
@@ -555,41 +614,46 @@ export default async function ServiceDetailPage({
       </div>
 
       <section className={styles.overview}>
-        <div className={`container ${styles.overviewGrid}`}>
-          <div className={styles.sectionLabel}>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={styles.sectionKicker}>
             <span>01</span>
             <p>Service overview</p>
           </div>
 
-          <div className={styles.narrative}>
+          <div className={styles.sectionHeading}>
             <h2>Built around the operating reality, not a generic template.</h2>
-            {narrative.map((paragraph, index) => (
-              <p key={`${service.slug}-narrative-${index}`}>{paragraph}</p>
-            ))}
+
+            <div className={styles.sectionCopy}>
+              {narrative.map((paragraph, index) => (
+                <p key={`${service.slug}-narrative-${index}`}>{paragraph}</p>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       <section className={styles.delivery}>
-        <div className={`container ${styles.deliveryGrid}`}>
-          <div className={styles.deliveryIntro}>
-            <div className={styles.sectionLabelLight}>
-              <span>02</span>
-              <p>What we deliver</p>
-            </div>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={styles.sectionKicker}>
+            <span>02</span>
+            <p>What we deliver</p>
+          </div>
+
+          <div className={styles.sectionHeading}>
             <h2>A practical scope shaped around the institution.</h2>
+
             <p>
-              The exact engagement is defined during discovery. These are the core delivery areas
-              typically associated with this service.
+              The exact engagement is defined during discovery. These are the core
+              delivery areas typically associated with this service.
             </p>
           </div>
 
-          <div className={styles.deliveryList}>
+          <div className={styles.deliveryGrid}>
             {fallback.deliverables.map((item, index) => (
               <article key={item}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <h3>{item}</h3>
-                <ArrowRight size={17} aria-hidden="true" />
+                <ArrowRight size={16} aria-hidden="true" />
               </article>
             ))}
           </div>
@@ -597,24 +661,26 @@ export default async function ServiceDetailPage({
       </section>
 
       <section className={styles.outcomes}>
-        <div className={`container ${styles.outcomesInner}`}>
-          <div className={styles.outcomesHeader}>
-            <div className={styles.sectionLabel}>
-              <span>03</span>
-              <p>Key outcomes</p>
-            </div>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={`${styles.sectionKicker} ${styles.sectionKickerLight}`}>
+            <span>03</span>
+            <p>Key outcomes</p>
+          </div>
 
-            <div>
-              <h2>What the engagement is designed to improve.</h2>
-              {outcomeText ? <p>{outcomeText}</p> : null}
-            </div>
+          <div className={`${styles.sectionHeading} ${styles.sectionHeadingDark}`}>
+            <h2>What the engagement is designed to improve.</h2>
+
+            <p>
+              {outcomeText ||
+                'The engagement is structured around practical improvements that can be connected to institutional performance, readiness and operational clarity.'}
+            </p>
           </div>
 
           <div className={styles.outcomeGrid}>
             {outcomes.map((item, index) => (
               <article key={`${item}-${index}`}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                <Check size={16} aria-hidden="true" />
+                <Check size={15} aria-hidden="true" />
                 <h3>{item}</h3>
               </article>
             ))}
@@ -623,13 +689,19 @@ export default async function ServiceDetailPage({
       </section>
 
       <section className={styles.approach}>
-        <div className={`container ${styles.approachInner}`}>
-          <div className={styles.approachHeader}>
-            <div className={styles.sectionLabelLight}>
-              <span>04</span>
-              <p>How we approach it</p>
-            </div>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={styles.sectionKicker}>
+            <span>04</span>
+            <p>How we approach it</p>
+          </div>
+
+          <div className={styles.sectionHeading}>
             <h2>Structured enough to be disciplined. Flexible enough to fit reality.</h2>
+
+            <p>
+              We shape the sequence around the real operating context rather than
+              forcing every institution into one implementation pattern.
+            </p>
           </div>
 
           <div className={styles.approachSteps}>
@@ -646,23 +718,32 @@ export default async function ServiceDetailPage({
 
       {related.length ? (
         <section className={styles.related}>
-          <div className={`container ${styles.relatedInner}`}>
-            <header>
-              <div className={styles.sectionLabel}>
-                <span>05</span>
-                <p>Related services</p>
-              </div>
+          <div className={`container ${styles.sectionShell}`}>
+            <div className={styles.sectionKicker}>
+              <span>05</span>
+              <p>Related services</p>
+            </div>
+
+            <div className={styles.sectionHeading}>
               <h2>Continue exploring BRAINTEK capabilities.</h2>
-            </header>
+
+              <p>
+                Related services connect the same institutional challenge to
+                complementary protection, systems and capability support.
+              </p>
+            </div>
 
             <div className={styles.relatedGrid}>
               {related.map((item, index) => (
                 <Link href={`/services/${item.slug}`} className={styles.relatedCard} key={item.slug}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <div className={styles.relatedTop}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <ArrowUpRight size={17} />
+                  </div>
+
                   <p>{item.pillar || fallback.pillarTitle}</p>
                   <h3>{item.name}</h3>
                   <small>{item.summary}</small>
-                  <ArrowUpRight size={18} />
                 </Link>
               ))}
             </div>
@@ -670,26 +751,7 @@ export default async function ServiceDetailPage({
         </section>
       ) : null}
 
-      <section className={styles.finalCta}>
-        <div className={styles.finalGrid} aria-hidden="true" />
-        <div className={`container ${styles.finalInner}`}>
-          <div>
-            <p>Discuss this service</p>
-            <h2>Turn the requirement into a practical next step.</h2>
-          </div>
-
-          <div className={styles.finalAside}>
-            <p>
-              Tell us what needs to improve, what constraints you are working with, and what outcome
-              matters most.
-            </p>
-            <Link href={consultationHref}>
-              Book a Consultation
-              <span><ChevronRight size={16} /></span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HomeFinalCTA />
     </main>
   );
 }

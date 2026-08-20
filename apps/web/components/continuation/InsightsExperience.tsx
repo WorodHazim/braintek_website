@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import {
   ArrowUpRight,
   FileText,
@@ -9,7 +8,8 @@ import {
   X,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { ContinuationHero } from './ContinuationHero';
+import { InstitutionalHero } from './InstitutionalHero';
+import { HomeFinalCTA } from '@/components/HomeFinalCTA';
 import styles from './InsightsExperience.module.css';
 
 type SectorTag =
@@ -37,6 +37,8 @@ type Resource = {
 
 type InsightsExperienceProps = {
   resources?: Resource[];
+  heroTitle?: string;
+  heroBody?: string;
 };
 
 const categoryLabels: Record<string, string> = {
@@ -166,6 +168,8 @@ function Cover({
 
 export function InsightsExperience({
   resources = [],
+  heroTitle = 'Applied thinking for institutions navigating transformation.',
+  heroBody = 'BRAINTEK perspectives connect AI, automation, workforce capability, governance and institutional performance to practical implementation questions.',
 }: InsightsExperienceProps) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
@@ -243,15 +247,21 @@ export function InsightsExperience({
   };
 
   return (
-    <main className={styles.page}>
-      <ContinuationHero
+    <main className={`home-v2 ${styles.page}`}>
+      <InstitutionalHero
+        variant="insights"
         eyebrow="Insights & Resources"
-        title="Applied thinking for institutions navigating transformation."
-        body="BRAINTEK perspectives connect AI, automation, workforce capability, governance and institutional performance to practical implementation questions."
-        primaryLabel="Explore insights"
-        primaryHref="#knowledge-library"
-        secondaryLabel="Request a consultation"
-        secondaryHref="/contact"
+        title={heroTitle}
+        body={heroBody}
+        modelLabel="Knowledge focus"
+        rows={[
+          { number: '01', title: 'Applied AI', note: 'Practical adoption' },
+          { number: '02', title: 'Automation', note: 'Operational improvement' },
+          { number: '03', title: 'Capability', note: 'People & performance' },
+          { number: '04', title: 'Governance', note: 'Responsible implementation' },
+        ]}
+        primary={{ label: 'Explore insights', href: '#knowledge-library' }}
+        secondary={{ label: 'Request a consultation', href: '/contact' }}
       />
 
       <section
@@ -260,16 +270,25 @@ export function InsightsExperience({
         aria-labelledby="knowledge-library"
       >
         <div className={`container ${styles.libraryHead}`}>
-          <div>
-            <p className={styles.kicker}>Knowledge library</p>
+          <p className={styles.kicker}>Knowledge library</p>
+
+          <div className={styles.sectionHeading}>
             <h2 id="knowledge-library">
               Find the perspective that matches the question.
             </h2>
-          </div>
 
-          <div className={styles.count}>
-            <strong>{filtered.length}</strong>
-            <span>{filtered.length === 1 ? 'resource' : 'resources'}</span>
+            <div className={styles.libraryAside}>
+              <p>
+                Search BRAINTEK perspectives by topic, format and sector to
+                connect practical thinking with the question your institution
+                is trying to solve.
+              </p>
+
+              <div className={styles.count}>
+                <strong>{filtered.length}</strong>
+                <span>{filtered.length === 1 ? 'resource' : 'resources'}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -403,10 +422,11 @@ export function InsightsExperience({
         <div className={`container ${styles.perspectiveInner}`}>
           <p className={styles.kickerLight}>BRAINTEK perspective</p>
 
-          <div>
+          <div className={styles.darkHeading}>
             <h2>
               Systems and people should be designed to reinforce one another.
             </h2>
+
             <p>
               Our published thinking focuses on practical institutional questions:
               how intelligent systems should be introduced, how work should be
@@ -417,19 +437,7 @@ export function InsightsExperience({
         </div>
       </section>
 
-      <section className={styles.cta}>
-        <div className={`container ${styles.ctaInner}`}>
-          <div>
-            <p>Turn insight into action</p>
-            <h2>Move from a useful idea to a practical implementation pathway.</h2>
-          </div>
-
-          <Link href="/contact">
-            Book a Consultation
-            <ArrowUpRight size={17} />
-          </Link>
-        </div>
-      </section>
+      <HomeFinalCTA />
     </main>
   );
 }

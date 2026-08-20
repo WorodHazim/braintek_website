@@ -1,7 +1,7 @@
 .section {
   position: relative;
   overflow: clip;
-  background: #1d4ed8;
+  background: linear-gradient(135deg,#0b7c7a 0%,#0d8f8b 58%,#086a6c 100%);
   color: #fff;
 }
 .grid {

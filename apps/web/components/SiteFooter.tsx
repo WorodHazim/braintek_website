@@ -12,7 +12,7 @@ const exploreLinks = [
 
 const companyLinks = [
   { label: 'About', href: '/about' },
-  { label: 'Why BRAINTEK', href: '/why-braintek' },
+  { label: 'Why BRAINTEK', href: '/about#why-braintek' },
   { label: 'Expert Team', href: '/expert-team' },
   { label: 'Partners', href: '/partners' },
 ];

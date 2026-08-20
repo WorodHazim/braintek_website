@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowUp,
@@ -15,12 +14,12 @@ const exploreLinks = [
   { label: 'Services', href: '/services' },
   { label: 'Sectors', href: '/sectors' },
   { label: 'Platforms', href: '/platforms-products' },
+  { label: 'Portfolio', href: '/portfolio' },
   { label: 'Insights & Resources', href: '/insights-resources' },
 ];
 
 const companyLinks = [
   { label: 'About', href: '/about' },
-  { label: 'Why BRAINTEK', href: '/why-braintek' },
   { label: 'Expert Team', href: '/expert-team' },
   { label: 'Partners', href: '/partners' },
 ];
@@ -38,6 +37,8 @@ const socials = [
   },
 ];
 
+const mapUrl = 'https://maps.app.goo.gl/sbwTMivzVrJFMoL5A';
+
 export function Footer() {
   return (
     <footer className={styles.footer} aria-label="BRAINTEK footer">
@@ -47,12 +48,8 @@ export function Footer() {
       <div className={`container ${styles.main}`}>
         <div className={styles.brandBlock}>
           <Link href="/" className={styles.brand} aria-label="BRAINTEK home">
-            <Image
-              src="/brand/braintek-logo.png"
-              alt="BRAINTEK"
-              width={205}
-              height={52}
-            />
+            <img src="/brand/braintek-logo.png" alt="" aria-hidden="true" />
+            <strong>BRAINTEK</strong>
           </Link>
 
           <p className={styles.tagline}>
@@ -103,7 +100,7 @@ export function Footer() {
           </div>
 
           <div className={styles.linkGroup}>
-            <p>Company</p>
+            <p>BRAINTEK</p>
             {companyLinks.map((item) => (
               <Link key={item.href} href={item.href}>
                 <span>{item.label}</span>
@@ -132,14 +129,19 @@ export function Footer() {
             </span>
           </a>
 
-          <div className={styles.contactItem}>
+          <a
+            href={mapUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            className={styles.contactItem}
+          >
             <i><MapPin size={15} /></i>
             <span>
               <small>Office</small>
-              Beside Khalidiya Mall, Building 22, M Floor
-              <em>Abu Dhabi, UAE</em>
+              Al Khalidiyah — Beside Khalidiyah Mall
+              <em>Abu Dhabi, UAE · Open in Google Maps</em>
             </span>
-          </div>
+          </a>
 
           <Link href="/contact" className={styles.consultation}>
             <span>Book a Consultation</span>

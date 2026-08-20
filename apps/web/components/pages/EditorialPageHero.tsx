@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { useRef, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 import styles from './EditorialPageHero.module.css';
-import { BrandMotionStrip } from '@/components/BrandMotionStrip';
 
 type Variant = 'about' | 'sectors' | 'platforms' | 'why';
 
@@ -63,7 +62,6 @@ export function EditorialPageHero({
   };
 
   return (
-    <>
     <section
       ref={heroRef}
       className={`${styles.hero} ${styles[`hero_${variant}`]}`}
@@ -120,7 +118,5 @@ export function EditorialPageHero({
         <span>SECURITY</span><i /><span>SYSTEMS</span><i /><span>CAPABILITY</span>
       </div>
     </section>
-    <BrandMotionStrip />
-    </>
   );
 }

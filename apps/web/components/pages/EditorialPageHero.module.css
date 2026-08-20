@@ -23,20 +23,36 @@
 
 .imageLayer {
   z-index: -4;
-  opacity: .74;
-  background-image: url('/services/services-hero.jpg');
+  opacity: .62;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
-  filter: saturate(.72) contrast(1.04);
+  background-position: center;
+  filter: saturate(.82) contrast(1.03) brightness(.92);
   transform: scale(1.02);
 }
 
-.hero_about .imageLayer,
-.hero_sectors .imageLayer,
-.hero_platforms .imageLayer,
+.hero_about .imageLayer {
+  background-image:
+    url('/pages/heroes/about.jpg'),
+    url('/services/services-hero.jpg');
+}
+
+.hero_sectors .imageLayer {
+  background-image:
+    url('/pages/heroes/sectors.jpg'),
+    url('/services/services-hero.jpg');
+}
+
+.hero_platforms .imageLayer {
+  background-image:
+    url('/pages/heroes/platforms.jpg'),
+    url('/services/services-hero.jpg');
+}
+
 .hero_why .imageLayer {
-  background-image: url('/services/services-hero.jpg');
+  background-image:
+    url('/pages/heroes/why.jpg'),
+    url('/services/services-hero.jpg');
 }
 
 .hero::before {
@@ -45,13 +61,13 @@
   z-index: -3;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(2,14,26,.93) 0%, rgba(3,18,32,.85) 38%, rgba(4,22,39,.68) 68%, rgba(4,21,36,.79) 100%),
-    linear-gradient(180deg, rgba(2,13,25,.28), rgba(2,13,25,.12) 48%, rgba(2,13,25,.52));
+    linear-gradient(90deg, rgba(3,15,28,.90) 0%, rgba(3,18,32,.80) 40%, rgba(4,22,39,.54) 72%, rgba(3,18,32,.72) 100%),
+    linear-gradient(180deg, rgba(3,14,27,.5), rgba(3,14,27,.28) 52%, rgba(3,14,27,.72));
 }
 
 .grid {
   z-index: -2;
-  opacity: .48;
+  opacity: .18;
   background-image:
     linear-gradient(rgba(127,229,223,.055) 1px, transparent 1px),
     linear-gradient(90deg, rgba(127,229,223,.045) 1px, transparent 1px);

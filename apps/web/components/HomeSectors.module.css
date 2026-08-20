@@ -1,6 +1,5 @@
 .section {
-  overflow: hidden;
-  padding: clamp(92px, 8vw, 130px) 0 58px;
+  padding: clamp(92px, 8vw, 130px) 0 clamp(82px, 7vw, 110px);
   background: #f4f7f9;
   color: #0a2036;
 }
@@ -37,7 +36,7 @@
   text-wrap: balance;
 }
 
-.headingMain > div:first-child > p {
+.headingMain > div > p {
   max-width: 760px;
   margin: 25px 0 0;
   color: #657c8e;
@@ -45,75 +44,33 @@
   line-height: 1.7;
 }
 
-.arrows {
-  display: flex;
-  gap: 9px;
+.gridLabel {
+  align-self: end;
+  padding-bottom: 4px;
+  color: #7c8f9d;
+  font-size: 8px;
+  font-weight: 740;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.arrows button {
-  width: 48px;
-  height: 48px;
+.grid {
   display: grid;
-  place-items: center;
-  border: 1px solid rgba(16, 42, 67, .16);
-  border-radius: 50%;
-  background: transparent;
-  color: #0a2036;
-  cursor: pointer;
-  transition:
-    background .22s ease,
-    color .22s ease,
-    border-color .22s ease;
-}
-
-.arrows button:hover {
-  border-color: #0b7c7a;
-  background: #0b7c7a;
-  color: #fff;
-}
-
-.viewport {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: visible;
-  padding: 0 max(16px, calc((100vw - 1320px) / 2));
-  cursor: grab;
-
-  /*
-   * Vertical page scrolling must continue to work while the pointer is
-   * over a sector card. Horizontal movement is handled by our drag logic.
-   */
-  touch-action: pan-y;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.viewport::-webkit-scrollbar {
-  display: none;
-}
-
-.dragging {
-  cursor: grabbing;
-}
-
-.track {
-  width: max-content;
-  display: flex;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
 
 .card {
   position: relative;
-  flex: 0 0 clamp(360px, 28.7vw, 468px);
-  height: clamp(560px, 47vw, 680px);
+  min-width: 0;
+  aspect-ratio: .78;
+  min-height: 500px;
   overflow: hidden;
   display: block;
   background: #06182b;
   color: #fff;
   isolation: isolate;
-  cursor: pointer;
 }
 
 .image {
@@ -124,11 +81,8 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  pointer-events: none;
   transform: scale(1.01);
-  transition:
-    transform .75s cubic-bezier(.22, 1, .36, 1),
-    filter .5s ease;
+  transition: transform .72s cubic-bezier(.22, 1, .36, 1), filter .45s ease;
 }
 
 .card:hover .image {
@@ -143,25 +97,20 @@
   background:
     linear-gradient(
       180deg,
-      rgba(2, 14, 27, .05) 0%,
-      rgba(2, 14, 27, .08) 33%,
-      rgba(2, 14, 27, .53) 66%,
+      rgba(2, 14, 27, .04) 0%,
+      rgba(2, 14, 27, .10) 34%,
+      rgba(2, 14, 27, .58) 68%,
       rgba(2, 14, 27, .96) 100%
     ),
-    linear-gradient(
-      90deg,
-      rgba(2, 14, 27, .18),
-      transparent 55%
-    );
+    linear-gradient(90deg, rgba(2, 14, 27, .16), transparent 56%);
 }
 
 .cardTop {
   position: absolute;
-  inset: 22px 22px auto;
+  inset: 21px 21px auto;
   display: flex;
   justify-content: space-between;
   align-items: start;
-  pointer-events: none;
 }
 
 .cardTop > span {
@@ -173,34 +122,18 @@
 
 .cardTop > i {
   position: relative;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(134, 229, 223, .28);
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(134, 229, 223, .26);
   border-radius: 50%;
 }
 
-.cardTop > i::before,
 .cardTop > i::after {
   content: '';
   position: absolute;
-  border: 1px solid rgba(134, 229, 223, .20);
+  inset: 13px;
   border-radius: 50%;
-}
-
-.cardTop > i::before {
-  inset: 8px;
-}
-
-.cardTop > i::after {
-  inset: 15px;
   background: #7fe6df;
-  border: 0;
-}
-
-.cardTop b {
-  display: none;
 }
 
 .cardCopy {
@@ -208,7 +141,6 @@
   left: 22px;
   right: 22px;
   bottom: 24px;
-  pointer-events: none;
 }
 
 .eyebrow {
@@ -221,10 +153,9 @@
 }
 
 .cardCopy h3 {
-  max-width: 100%;
   margin: 13px 0 0;
   font-family: var(--font-display), Manrope, Arial, sans-serif;
-  font-size: clamp(38px, 3.3vw, 55px);
+  font-size: clamp(34px, 3vw, 49px);
   font-weight: 510;
   line-height: .92;
   letter-spacing: -.055em;
@@ -233,21 +164,20 @@
 
 .cardCopy h3 small {
   display: block;
-  margin-top: 3px;
+  margin-top: 4px;
   color: rgba(225, 237, 242, .70);
-  font-size: .68em;
+  font-size: .65em;
   font-weight: 480;
   line-height: 1;
 }
 
 .summary {
   display: -webkit-box;
-  max-width: 410px;
-  margin: 20px 0 0;
+  margin: 18px 0 0;
   overflow: hidden;
   color: rgba(215, 233, 240, .72);
-  font-size: 11.5px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.58;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
@@ -256,83 +186,35 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 23px;
+  margin-top: 22px;
   color: #9cebe6;
   font-size: 10px;
   font-weight: 750;
-  pointer-events: none;
-  transition: gap .25s ease;
+  transition: gap .25s ease, color .25s ease;
 }
 
 .card:hover .explore {
   gap: 12px;
+  color: #fff;
 }
 
-.progressRow {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 20px;
-  align-items: center;
-  margin-top: 26px;
-}
-
-.progressNumbers {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #607789;
-  font-size: 8px;
-  font-weight: 750;
-  letter-spacing: .11em;
-}
-
-.progressNumbers > i {
-  width: 24px;
-  height: 1px;
-  background: #0ea5a4;
-}
-
-.progressTrack {
-  height: 1px;
-  overflow: hidden;
-  background: rgba(16, 42, 67, .13);
-}
-
-.progressTrack > span {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, #0ea5a4, #1d4ed8);
-  transform-origin: left center;
-  transition: transform .12s linear;
-}
-
-.progressRow > p {
-  margin: 0;
-  color: #758999;
-  font-size: 8px;
-  font-weight: 740;
-  letter-spacing: .10em;
-  text-transform: uppercase;
-}
-
-@media (max-width: 900px) {
+@media (max-width: 980px) {
   .headingMain {
     grid-template-columns: 1fr;
   }
 
-  .arrows {
-    justify-self: start;
+  .gridLabel {
+    display: none;
   }
 
-  .card {
-    flex-basis: min(78vw, 440px);
+  .grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
   }
 }
 
 @media (max-width: 640px) {
   .section {
-    padding: 76px 0 46px;
+    padding: 76px 0 64px;
   }
 
   .heading {
@@ -343,25 +225,20 @@
     font-size: clamp(43px, 12vw, 58px);
   }
 
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
   .card {
-    flex-basis: 84vw;
-    height: 590px;
-  }
-
-  .progressRow {
-    grid-template-columns: auto 1fr;
-  }
-
-  .progressRow > p {
-    display: none;
+    min-height: 560px;
+    aspect-ratio: auto;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .image,
-  .explore,
-  .arrows button,
-  .progressTrack > span {
+  .explore {
     transition: none !important;
   }
 }

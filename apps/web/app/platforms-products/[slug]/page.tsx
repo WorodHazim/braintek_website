@@ -5,11 +5,10 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  ChevronRight,
 } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { cms } from '@/lib/cms';
-import { ProductMedia } from './ProductMedia';
+import { HomeFinalCTA } from '@/components/HomeFinalCTA';
 import styles from './PlatformDetailPage.module.css';
 
 type ProductRecord = {
@@ -51,7 +50,7 @@ type ProductExperience = {
 
 const PRODUCT_COPY: Record<string, ProductExperience> = {
   psytest: {
-    localImage: '/home/platforms/psytest.jpg',
+    localImage: '/home/platforms/psytest.png',
     eyebrow: 'Assessment & Human Capability',
     heroLine:
       'Psychometric-informed assessment for structured human analysis, capability diagnosis, talent visibility and evidence-informed development planning.',
@@ -76,7 +75,7 @@ const PRODUCT_COPY: Record<string, ProductExperience> = {
   },
 
   ailex: {
-    localImage: '/home/platforms/ailex.jpg',
+    localImage: '/home/platforms/ailex.png',
     eyebrow: 'Leadership & AI Readiness',
     heroLine:
       'AI Leadership Excellence Assessment for leaders, managers and decision-makers operating in increasingly AI-enabled environments.',
@@ -101,7 +100,7 @@ const PRODUCT_COPY: Record<string, ProductExperience> = {
   },
 
   scheduler: {
-    localImage: '/home/platforms/scheduler.jpg',
+    localImage: '/home/platforms/scheduler.png',
     eyebrow: 'Academic Operations',
     heroLine:
       'Institutional scheduling for timetables, examinations, session coordination and resource alignment across complex academic environments.',
@@ -126,7 +125,7 @@ const PRODUCT_COPY: Record<string, ProductExperience> = {
   },
 
   skoolee: {
-    localImage: '/home/platforms/skoolee.jpg',
+    localImage: '/home/platforms/skoolee.png',
     eyebrow: 'Student Institutional Services',
     heroLine:
       'A student-centered operational platform for requests, records, communication, service coordination and institutional visibility.',
@@ -151,7 +150,7 @@ const PRODUCT_COPY: Record<string, ProductExperience> = {
   },
 
   opspilot: {
-    localImage: '/home/platforms/opspilot.jpg',
+    localImage: '/home/platforms/o-pilot.png',
     eyebrow: 'Workflow Automation & Operational Control',
     status: 'Strategic Platform Direction',
     heroLine:
@@ -159,7 +158,7 @@ const PRODUCT_COPY: Record<string, ProductExperience> = {
     problem:
       'Many institutions depend on fragmented approvals, siloed process management, inconsistent service execution and heavy manual administration.',
     positioning:
-      'OpsPilot is presented as a strategic platform direction: a configurable and scalable workflow-automation architecture that can be adapted to institutional modules, permissions, dashboards, routing rules, forms, integrations and audit requirements.',
+      'O-PILOT is presented as a strategic platform direction: a configurable and scalable workflow-automation architecture that can be adapted to institutional modules, permissions, dashboards, routing rules, forms, integrations and audit requirements.',
     merits: [
       'Creates a clearer branded platform direction for workflow automation and operational control.',
       'Can support approvals, cases, routing, escalations, tasks, forms and document flow.',
@@ -177,7 +176,7 @@ const PRODUCT_COPY: Record<string, ProductExperience> = {
   },
 
   sentinelshield: {
-    localImage: '/home/platforms/sentinelshield.jpg',
+    localImage: '/home/platforms/sentinelshield.png',
     eyebrow: 'Cybersecurity & Digital Protection',
     status: 'Proposed Solution Concept',
     heroLine:
@@ -218,7 +217,7 @@ function keyFor(slug: string, name: string) {
 
 function fallbackExperience(product: ProductRecord): ProductExperience {
   return {
-    localImage: `/home/platforms/${product.slug}.jpg`,
+    localImage: `/home/platforms/${product.slug}.png`,
     eyebrow: product.category || 'BRAINTEK Platform',
     heroLine:
       product.summary ||
@@ -241,6 +240,34 @@ function fallbackExperience(product: ProductRecord): ProductExperience {
     sectorKeywords: ['government', 'enterprise', 'education'],
     motionWords: ['Institutional systems', 'Practical implementation', 'Operational value', 'Connected capability'],
   };
+}
+
+
+function displayProductName(product: ProductRecord) {
+  const key = keyFor(product.slug, product.name);
+
+  if (key === 'opspilot') return 'O-PILOT';
+
+  return product.name;
+}
+
+function platformLogo(product: ProductRecord, experience: ProductExperience) {
+  const key = keyFor(product.slug, product.name);
+
+  const logos: Record<string, string> = {
+    psytest: '/home/platforms/psytest.png',
+    ailex: '/home/platforms/ailex.png',
+    scheduler: '/home/platforms/scheduler.png',
+    skoolee: '/home/platforms/skoolee.png',
+    opspilot: '/home/platforms/o-pilot.png',
+    sentinelshield: '/home/platforms/sentinelshield.png',
+  };
+
+  return logos[key] || experience.localImage;
+}
+
+function primaryScreenshot(product: ProductRecord) {
+  return product.screenshotUrls?.find(Boolean) || null;
 }
 
 function normalize(value: string | null | undefined) {
@@ -358,53 +385,65 @@ export default async function PlatformDetailPage({
 
   const consultationHref = `/contact?platform=${encodeURIComponent(product.slug)}`;
 
-  return (
-    <main id="main-content" className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.heroMedia}>
-          <ProductMedia
-            name={product.name}
-            localImage={experience.localImage}
-            screenshots={product.screenshotUrls}
-            mode="hero"
-          />
-        </div>
+  const productName = displayProductName(product);
+  const logo = platformLogo(product, experience);
+  const screenshot = primaryScreenshot(product);
 
-        <div className={styles.heroOverlay} aria-hidden="true" />
-        <div className={styles.heroGrid} aria-hidden="true" />
+  return (
+    <main id="main-content" className={`home-v2 ${styles.page}`}>
+      <section className={styles.hero}>
+        <div className={styles.heroAtmosphere} aria-hidden="true" />
 
         <div className={`container ${styles.heroInner}`}>
-          <div className={styles.breadcrumb}>
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <Link href="/platforms-products">Platforms & Products</Link>
-            <span>/</span>
-            <span>{product.name}</span>
+          <div className={styles.heroTop}>
+            <Link href="/platforms-products" className={styles.backLink}>
+              <ArrowLeft size={15} />
+              Platforms & Products
+            </Link>
+
+            {status ? (
+              <span className={styles.statusTag}>{status}</span>
+            ) : (
+              <span className={styles.statusTag}>BRAINTEK Platform</span>
+            )}
           </div>
 
           <div className={styles.heroLayout}>
             <div className={styles.heroCopy}>
-              <div className={styles.heroMeta}>
-                <p>{experience.eyebrow}</p>
-                {status ? <span>{status}</span> : null}
-              </div>
+              <p className={styles.eyebrow}>{experience.eyebrow}</p>
+              <h1>{productName}</h1>
 
-              <h1>{product.name}</h1>
-            </div>
-
-            <div className={styles.heroAside}>
-              <p>{experience.heroLine}</p>
+              <p className={styles.heroSummary}>{experience.heroLine}</p>
 
               <div className={styles.heroActions}>
-                <Link href={consultationHref}>
-                  Discuss {product.name}
+                <Link href={consultationHref} className={styles.primaryAction}>
+                  Discuss this platform
                   <ArrowUpRight size={16} />
                 </Link>
 
                 <Link href="/platforms-products" className={styles.secondaryAction}>
-                  <ArrowLeft size={15} />
-                  All platforms
+                  View all platforms
+                  <ArrowUpRight size={15} />
                 </Link>
+              </div>
+            </div>
+
+            <div className={styles.heroVisual}>
+              <div className={styles.heroVisualTop}>
+                <span>Platform identity</span>
+                <i />
+              </div>
+
+              <div className={styles.logoStage}>
+                <img
+                  src={logo}
+                  alt={`${productName} logo`}
+                />
+              </div>
+
+              <div className={styles.heroVisualFooter}>
+                <span>BRAINTEK</span>
+                <strong>{productName}</strong>
               </div>
             </div>
           </div>
@@ -415,9 +454,9 @@ export default async function PlatformDetailPage({
         <div>
           {[
             ...experience.motionWords,
-            product.name,
+            productName,
             ...experience.motionWords,
-            product.name,
+            productName,
           ].map((word, index) => (
             <span key={`${word}-${index}`}>
               {word}
@@ -428,17 +467,22 @@ export default async function PlatformDetailPage({
       </div>
 
       <section className={styles.role}>
-        <div className={`container ${styles.roleGrid}`}>
-          <div className={styles.sectionMarker}>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={styles.sectionKicker}>
             <span>01</span>
             <p>Platform role</p>
           </div>
 
-          <div className={styles.roleCopy}>
-            <p className={styles.roleLabel}>{experience.capabilityLine}</p>
-            <h2>Designed around a clear institutional problem and a practical operating context.</h2>
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.contextLine}>{experience.capabilityLine}</p>
+              <h2>
+                Designed around a clear institutional problem and a practical
+                operating context.
+              </h2>
+            </div>
 
-            <div className={styles.roleText}>
+            <div className={styles.sectionCopy}>
               <p>{experience.problem}</p>
               <p>{experience.positioning}</p>
               <p>
@@ -450,27 +494,27 @@ export default async function PlatformDetailPage({
       </section>
 
       <section className={styles.merits}>
-        <div className={`container ${styles.meritsInner}`}>
-          <header className={styles.darkHeader}>
-            <div className={styles.sectionMarkerLight}>
-              <span>02</span>
-              <p>Core merits</p>
-            </div>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={`${styles.sectionKicker} ${styles.sectionKickerLight}`}>
+            <span>02</span>
+            <p>Core merits</p>
+          </div>
 
-            <div>
-              <h2>Why this platform matters in practice.</h2>
-              <p>
-                The value is not software ownership alone. It is the ability to improve decisions,
-                coordination, capability or operational visibility in a real institutional setting.
-              </p>
-            </div>
-          </header>
+          <div className={`${styles.sectionHeading} ${styles.sectionHeadingDark}`}>
+            <h2>Why this platform matters in practice.</h2>
+
+            <p>
+              The value is not software ownership alone. It is the ability to
+              improve decisions, coordination, capability or operational
+              visibility in a real institutional setting.
+            </p>
+          </div>
 
           <div className={styles.meritGrid}>
             {experience.merits.map((merit, index) => (
               <article key={merit}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                <Check size={16} aria-hidden="true" />
+                <Check size={15} aria-hidden="true" />
                 <h3>{merit}</h3>
               </article>
             ))}
@@ -479,59 +523,81 @@ export default async function PlatformDetailPage({
       </section>
 
       <section className={styles.interface}>
-        <div className={`container ${styles.interfaceGrid}`}>
-          <div className={styles.interfaceIntro}>
-            <div className={styles.sectionMarker}>
-              <span>03</span>
-              <p>Platform visual</p>
-            </div>
+        <div className={`container ${styles.sectionShell}`}>
+          <div className={styles.sectionKicker}>
+            <span>03</span>
+            <p>Platform visual</p>
+          </div>
 
-            <h2>A visual language ready to evolve with the product.</h2>
+          <div className={styles.sectionHeading}>
+            <h2>
+              A visual language ready to evolve with the product.
+            </h2>
+
             <p>
-              The platform page uses approved cover art first, then real CMS screenshots as they
-              become available. Missing interface assets never break the presentation.
+              Real product screenshots can be managed through the CMS as they
+              become available. Until then, the page uses the approved platform
+              identity rather than a fake or broken interface placeholder.
             </p>
           </div>
 
-          <div className={styles.interfaceFrame}>
-            <ProductMedia
-              name={product.name}
-              localImage={null}
-              screenshots={product.screenshotUrls}
-              mode="interface"
-            />
-            <div className={styles.interfaceFrameLine} aria-hidden="true" />
+          <div className={styles.interfaceCanvas}>
+            {screenshot ? (
+              <img
+                className={styles.interfaceScreenshot}
+                src={screenshot}
+                alt={`${productName} interface`}
+                loading="lazy"
+              />
+            ) : (
+              <div className={styles.interfaceIdentity}>
+                <img
+                  src={logo}
+                  alt={`${productName} logo`}
+                  loading="lazy"
+                />
+
+                <div>
+                  <span>{experience.eyebrow}</span>
+                  <strong>{productName}</strong>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {relatedSectors.length ? (
         <section className={styles.sectors}>
-          <div className={`container ${styles.sectorInner}`}>
-            <header className={styles.lightHeader}>
-              <div className={styles.sectionMarker}>
-                <span>04</span>
-                <p>Relevant environments</p>
-              </div>
+          <div className={`container ${styles.sectionShell}`}>
+            <div className={styles.sectionKicker}>
+              <span>04</span>
+              <p>Relevant environments</p>
+            </div>
 
-              <div>
-                <h2>Where {product.name} can create institutional value.</h2>
-                <p>
-                  Sector relevance is framed around the operating need, not just the product
-                  category.
-                </p>
-              </div>
-            </header>
+            <div className={styles.sectionHeading}>
+              <h2>Where {productName} can create institutional value.</h2>
 
-            <div className={styles.sectorList}>
+              <p>
+                Sector relevance is framed around the operating need, not just
+                the product category.
+              </p>
+            </div>
+
+            <div className={styles.sectorGrid}>
               {relatedSectors.map((sector, index) => (
-                <Link href={`/sectors/${sector.slug}`} key={sector.slug}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <div>
-                    <h3>{sector.name}</h3>
-                    <p>{sector.summary}</p>
+                <Link
+                  href={`/sectors/${sector.slug}`}
+                  className={styles.sectorCard}
+                  key={sector.slug}
+                >
+                  <div className={styles.cardTop}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <ArrowUpRight size={16} />
                   </div>
-                  <ArrowUpRight size={17} />
+
+                  <h3>{sector.name}</h3>
+                  <p>{sector.summary}</p>
                 </Link>
               ))}
             </div>
@@ -541,35 +607,46 @@ export default async function PlatformDetailPage({
 
       {relatedServices.length ? (
         <section className={styles.services}>
-          <div className={`container ${styles.serviceLayout}`}>
-            <aside className={styles.serviceIntro}>
-              <div className={styles.sectionMarkerLight}>
-                <span>05</span>
-                <p>Connected services</p>
+          <div className={`container ${styles.sectionShell}`}>
+            <div className={`${styles.sectionKicker} ${styles.sectionKickerLight}`}>
+              <span>05</span>
+              <p>Connected services</p>
+            </div>
+
+            <div className={`${styles.sectionHeading} ${styles.sectionHeadingDark}`}>
+              <h2>
+                Platforms work best when implementation capability sits around
+                them.
+              </h2>
+
+              <div className={styles.darkHeadingAside}>
+                <p>
+                  Connect the platform discussion to the services needed for
+                  readiness, integration, adoption, governance and measurable use.
+                </p>
+
+                <Link href="/services">
+                  Explore all services
+                  <ArrowUpRight size={15} />
+                </Link>
               </div>
+            </div>
 
-              <h2>Platforms work best when implementation capability sits around them.</h2>
-              <p>
-                BRAINTEK can connect the platform discussion to the services needed for readiness,
-                integration, adoption, governance and measurable use.
-              </p>
-
-              <Link href="/services">
-                Explore all services
-                <ArrowUpRight size={16} />
-              </Link>
-            </aside>
-
-            <div className={styles.serviceList}>
+            <div className={styles.serviceGrid}>
               {relatedServices.map((service, index) => (
-                <Link href={`/services/${service.slug}`} key={service.slug}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <div>
-                    <p>{service.pillar || 'BRAINTEK capability'}</p>
-                    <h3>{service.name}</h3>
-                    <small>{service.summary}</small>
+                <Link
+                  href={`/services/${service.slug}`}
+                  className={styles.serviceCard}
+                  key={service.slug}
+                >
+                  <div className={styles.cardTopDark}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <ArrowRight size={16} />
                   </div>
-                  <ArrowRight size={17} />
+
+                  <p>{service.pillar || 'BRAINTEK capability'}</p>
+                  <h3>{service.name}</h3>
+                  <small>{service.summary}</small>
                 </Link>
               ))}
             </div>
@@ -579,26 +656,28 @@ export default async function PlatformDetailPage({
 
       {relatedProducts.length ? (
         <section className={styles.related}>
-          <div className={`container ${styles.relatedInner}`}>
-            <header className={styles.lightHeader}>
-              <div className={styles.sectionMarker}>
-                <span>06</span>
-                <p>Platform ecosystem</p>
-              </div>
+          <div className={`container ${styles.sectionShell}`}>
+            <div className={styles.sectionKicker}>
+              <span>06</span>
+              <p>Platform ecosystem</p>
+            </div>
 
-              <div>
-                <h2>Continue through the BRAINTEK platform portfolio.</h2>
-                <p>
-                  The portfolio connects assessment, leadership readiness, academic operations,
-                  workflow automation and digital protection.
-                </p>
-              </div>
-            </header>
+            <div className={styles.sectionHeading}>
+              <h2>Continue through the BRAINTEK platform portfolio.</h2>
+
+              <p>
+                Explore assessment, leadership readiness, academic operations,
+                workflow automation and digital protection through one connected
+                platform portfolio.
+              </p>
+            </div>
 
             <div className={styles.relatedGrid}>
               {relatedProducts.map((item, index) => {
                 const relatedKey = keyFor(item.slug, item.name);
-                const relatedExperience = PRODUCT_COPY[relatedKey] || fallbackExperience(item);
+                const relatedExperience =
+                  PRODUCT_COPY[relatedKey] || fallbackExperience(item);
+                const relatedLogo = platformLogo(item, relatedExperience);
 
                 return (
                   <Link
@@ -606,25 +685,28 @@ export default async function PlatformDetailPage({
                     className={styles.relatedCard}
                     key={item.slug}
                   >
-                    <div className={styles.relatedMedia}>
-                      <ProductMedia
-                        name={item.name}
-                        localImage={relatedExperience.localImage}
-                        screenshots={item.screenshotUrls}
-                        mode="hero"
-                      />
-                      <div className={styles.relatedOverlay} aria-hidden="true" />
+                    <div className={styles.relatedHead}>
                       <span>{String(index + 1).padStart(2, '0')}</span>
+                      <p>{relatedExperience.eyebrow}</p>
                     </div>
 
-                    <div className={styles.relatedCopy}>
-                      <p>{relatedExperience.eyebrow}</p>
-                      <h3>{item.name}</h3>
-                      <small>{item.summary || relatedExperience.heroLine}</small>
-                      <em>
+                    <h3>{displayProductName(item)}</h3>
+
+                    <div className={styles.relatedVisual}>
+                      <img
+                        src={relatedLogo}
+                        alt={`${displayProductName(item)} logo`}
+                        loading="lazy"
+                      />
+                    </div>
+
+                    <div className={styles.relatedFooter}>
+                      <p>{item.summary || relatedExperience.heroLine}</p>
+
+                      <strong>
                         Explore platform
                         <ArrowUpRight size={15} />
-                      </em>
+                      </strong>
                     </div>
                   </Link>
                 );
@@ -634,30 +716,7 @@ export default async function PlatformDetailPage({
         </section>
       ) : null}
 
-      <section className={styles.finalCta}>
-        <div className={styles.finalGrid} aria-hidden="true" />
-
-        <div className={`container ${styles.finalInner}`}>
-          <div>
-            <p>Platform discussion</p>
-            <h2>Explore how {product.name} could fit your institution.</h2>
-          </div>
-
-          <div className={styles.finalAside}>
-            <p>
-              Start with the operating need, intended users, implementation context and outcome that
-              matters. BRAINTEK can then shape the right platform discussion around it.
-            </p>
-
-            <Link href={consultationHref}>
-              Request a Platform Discussion
-              <span>
-                <ChevronRight size={16} />
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HomeFinalCTA />
     </main>
   );
 }

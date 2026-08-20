@@ -14,10 +14,10 @@
 
 .controls > p {
   margin: 0;
-  color: #768b9c;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: .08em;
+  color: #718694;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .065em;
   text-transform: uppercase;
 }
 
@@ -27,14 +27,14 @@
 }
 
 .controls button {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(16, 42, 67, .14);
+  border: 1px solid rgba(16,42,67,.13);
   border-radius: 50%;
-  background: #fff;
+  background: rgba(255,255,255,.72);
   color: #0b2036;
   cursor: pointer;
   transition: background .25s ease, color .25s ease, transform .25s ease;
@@ -49,7 +49,10 @@
 .rail {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: clamp(290px, 25vw, 370px);
+
+  /* Smaller, more editorial cards */
+  grid-auto-columns: clamp(245px, 20vw, 305px);
+
   gap: 14px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -76,16 +79,31 @@
   min-width: 0;
   overflow: hidden;
   scroll-snap-align: start;
-  border: 1px solid rgba(17, 51, 77, .11);
+  border: 1px solid rgba(17,51,77,.10);
   background: #fff;
+  transition:
+    transform .35s cubic-bezier(.22,1,.36,1),
+    border-color .35s ease,
+    box-shadow .35s ease;
 }
 
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(11,124,122,.22);
+  box-shadow: 0 14px 36px rgba(11,31,58,.07);
+}
+
+/*
+  LIGHTER PORTRAIT AREA
+  The previous navy media/fallback made the whole rail feel too heavy.
+*/
 .media {
   position: relative;
-  height: clamp(350px, 31vw, 470px);
+  height: clamp(285px, 24vw, 365px);
   overflow: hidden;
   background:
-    linear-gradient(145deg, #0d2a43, #071b2f);
+    radial-gradient(circle at 72% 24%, rgba(14,165,164,.08), transparent 28%),
+    linear-gradient(145deg, #eef4f4, #dde8eb 72%);
 }
 
 .portrait {
@@ -93,18 +111,20 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  filter: grayscale(1) saturate(.55) contrast(1.03);
+  object-position: center top;
+  filter: grayscale(1) saturate(.55) contrast(1.02);
   transform: scale(1.01);
   transition:
-    filter .55s ease,
-    transform .8s cubic-bezier(.22, 1, .36, 1);
+    filter .5s ease,
+    transform .72s cubic-bezier(.22,1,.36,1);
 }
 
 .card:hover .portrait {
-  filter: grayscale(0) saturate(.96) contrast(1.02);
-  transform: scale(1.055);
+  filter: grayscale(0) saturate(.92) contrast(1.02);
+  transform: scale(1.045);
 }
 
+/* Initial-only members now use a soft institutional background instead of navy. */
 .fallback {
   position: absolute;
   inset: 0;
@@ -112,8 +132,8 @@
   place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(circle at 72% 28%, rgba(14, 165, 164, .22), transparent 30%),
-    linear-gradient(145deg, #0e3551, #071b2f 74%);
+    radial-gradient(circle at 70% 24%, rgba(14,165,164,.10), transparent 30%),
+    linear-gradient(145deg, #f0f5f5, #dce8eb 78%);
 }
 
 .fallback::before,
@@ -121,111 +141,116 @@
 .fallback i {
   content: "";
   position: absolute;
-  border: 1px solid rgba(142, 231, 225, .14);
+  border: 1px solid rgba(11,124,122,.12);
   border-radius: 50%;
 }
 
 .fallback::before {
-  width: 240px;
-  height: 240px;
+  width: 180px;
+  height: 180px;
 }
 
 .fallback::after {
-  width: 350px;
-  height: 350px;
+  width: 270px;
+  height: 270px;
 }
 
 .fallback i {
-  width: 520px;
-  height: 520px;
+  width: 390px;
+  height: 390px;
 }
 
 .fallback span {
   position: relative;
   z-index: 2;
-  color: rgba(231, 249, 249, .96);
+  color: #173a4b;
   font-family: var(--font-display), Manrope, sans-serif;
-  font-size: clamp(54px, 5vw, 78px);
+  font-size: clamp(42px, 4vw, 58px);
   font-weight: 500;
   letter-spacing: -.06em;
 }
 
 .number {
   position: absolute;
-  left: 18px;
-  top: 18px;
-  min-width: 34px;
-  height: 28px;
-  padding: 0 8px;
+  left: 14px;
+  top: 14px;
+  min-width: 32px;
+  height: 26px;
+  padding: 0 7px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, .22);
-  background: rgba(4, 18, 31, .34);
-  backdrop-filter: blur(10px);
-  color: #bff4ef;
-  font-size: 9px;
+  border: 1px solid rgba(16,42,67,.13);
+  background: rgba(255,255,255,.76);
+  backdrop-filter: blur(8px);
+  color: #0b7c7a;
+  font-size: 8.5px;
   font-weight: 760;
   letter-spacing: .12em;
 }
 
+/* Smaller text block = shorter overall cards */
 .copy {
-  min-height: 220px;
-  padding: 22px 22px 26px;
+  min-height: 160px;
+  padding: 18px 18px 21px;
 }
 
 .copy h3 {
   margin: 0;
   color: #0a2036;
   font-family: var(--font-display), Manrope, sans-serif;
-  font-size: clamp(25px, 2.2vw, 34px);
+  font-size: clamp(21px, 1.75vw, 28px);
   font-weight: 540;
   line-height: 1.02;
   letter-spacing: -.04em;
 }
 
 .role {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   color: #0b7c7a;
-  font-size: 11px;
-  font-weight: 720;
-  line-height: 1.45;
+  font-size: 10.5px;
+  font-weight: 690;
+  line-height: 1.4;
 }
 
 .contribution {
   display: -webkit-box;
-  margin: 18px 0 0;
+  margin: 13px 0 0;
   overflow: hidden;
   color: #6b8091;
-  font-size: 12px;
-  line-height: 1.65;
-  -webkit-line-clamp: 3;
+  font-size: 11.5px;
+  line-height: 1.58;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
 .progress {
   width: min(calc(100% - 64px), var(--max));
   height: 1px;
-  margin: 10px auto 0;
+  margin: 9px auto 0;
   overflow: hidden;
-  background: rgba(16, 42, 67, .12);
+  background: rgba(16,42,67,.12);
 }
 
 .progress span {
   display: block;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, #0ea5a4, #1d4ed8);
+  background: #0b7c7a;
   transform-origin: left;
   transition: transform .16s linear;
 }
 
 .compact .rail {
-  grid-auto-columns: clamp(275px, 23vw, 345px);
+  grid-auto-columns: clamp(240px, 19vw, 295px);
 }
 
 .compact .media {
-  height: clamp(330px, 28vw, 425px);
+  height: clamp(275px, 22vw, 345px);
+}
+
+.compact .copy {
+  min-height: 150px;
 }
 
 @media (max-width: 760px) {
@@ -244,21 +269,27 @@
 
   .rail,
   .compact .rail {
-    grid-auto-columns: 82vw;
+    grid-auto-columns: 76vw;
     padding-left: 16px;
     padding-right: 16px;
   }
 
   .media,
   .compact .media {
-    height: 420px;
+    height: 350px;
+  }
+
+  .copy,
+  .compact .copy {
+    min-height: 145px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .controls button,
   .portrait,
-  .progress span {
+  .progress span,
+  .card {
     transition: none !important;
   }
 }
